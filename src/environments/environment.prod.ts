@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  apiUrl: 'localhost:8090',
+  production: true,
+  enableRoutingTracing: false
 };

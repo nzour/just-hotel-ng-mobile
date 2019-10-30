@@ -1,3 +1,4 @@
 <ion-app>
+  <ion-progress-bar type="indeterminate" *ngIf="isLoading | async" class="loader"></ion-progress-bar>
   <ion-router-outlet></ion-router-outlet>
 </ion-app>

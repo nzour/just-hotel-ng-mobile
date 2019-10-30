@@ -1,0 +1,30 @@
+<ion-header class="ion-margin">
+    Авторизация
+</ion-header>
+
+<ion-content>
+    <form [formGroup]="loginForm">
+        <ion-item>
+            <ion-input
+                    type="text"
+                    placeholder="Логин"
+                    formControlName="login">
+            </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-input
+                    type="password"
+                    placeholder="Пароль"
+                    formControlName="password">
+            </ion-input>
+        </ion-item>
+
+        <ion-button
+                (click)="submit()"
+                class="ion-margin"
+                expand="block">
+            Войти
+        </ion-button>
+    </form>
+</ion-content>

@@ -4,8 +4,12 @@
     "codelyzer"
   ],
   "rules": {
-    "array-type": false,
+    "array-type": true,
     "arrow-parens": false,
+    "typedef": [
+      true,
+      "call-signature"
+    ],
     "deprecation": {
       "severity": "warn"
     },
