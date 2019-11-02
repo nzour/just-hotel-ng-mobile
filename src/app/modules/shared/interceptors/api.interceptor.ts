@@ -6,16 +6,16 @@ import { LoaderService } from '../services/loader.service';
 import { environment } from '../../../../environments/environment';
 import { catchError, finalize } from 'rxjs/operators';
 import { RootInjectable } from '../shared-service.module';
+import { NotifierService } from '../services/notifier.service';
 
 @RootInjectable()
 export class ApiInterceptor implements HttpInterceptor {
 
-  private readonly UNAUTHORIZED_CODE = 401;
-
   constructor(
     private router: Router,
     private tokenService: TokenService,
-    private loaderService: LoaderService
+    private loaderService: LoaderService,
+    private notifier: NotifierService
   ) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -34,13 +34,48 @@ export class ApiInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       finalize(() => this.loaderService.decrease()),
       catchError((response: HttpErrorResponse) => {
-        if (this.UNAUTHORIZED_CODE === response.status) {
-          this.tokenService.clear();
-          this.router.navigate(['']);
-        }
+        this.handleIfUnauthorized(response);
+        this.handleIfForbidden(response);
+        this.handleIfBadRequest(response);
 
         return throwError(response);
       })
     );
   }
+
+  private handleIfUnauthorized(response: HttpErrorResponse): void {
+    if (ResponseCode.UNAUTHORIZED === response.status) {
+      this.tokenService.clear();
+      this.router.navigate(['']);
+    }
+  }
+
+  private handleIfForbidden(response: HttpErrorResponse): void {
+    if (ResponseCode.FORBIDDEN === response.status) {
+      this.notifier.dispatchError('Нет доступа!');
+    }
+  }
+
+  private handleIfBadRequest(response: HttpErrorResponse): void {
+    if (!this.isErrorReadable(response.error, response)) {
+      return;
+    }
+
+    this.notifier.dispatchError(`Type: ${response.error.type}. Message: ${response.error.message}`);
+  }
+
+  private isErrorReadable(error: any, response: HttpErrorResponse): error is ErrorResponse {
+    return ResponseCode.BAD_REQUEST !== response.status;
+  }
+}
+
+interface ErrorResponse {
+  type: string
+  message: string
+}
+
+class ResponseCode {
+  static readonly UNAUTHORIZED: number = 401;
+  static readonly FORBIDDEN: number = 403;
+  static readonly BAD_REQUEST: number = 400;
 }

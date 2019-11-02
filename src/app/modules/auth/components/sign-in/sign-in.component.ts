@@ -1,9 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AuthService, SignInInput } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NotifierService } from '../../../shared/services/notifier.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -20,7 +21,8 @@ export class SignInComponent implements OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private notifier: NotifierService
   ) { }
 
   ngOnDestroy(): void {
@@ -31,20 +33,19 @@ export class SignInComponent implements OnDestroy {
     return this._loginForm;
   }
 
-  submit() {
+  submit(): void {
     if (!this._loginForm.valid) {
-      // dispatch error
+      this.notifier.dispatchError('Оба поля должны быть заполнены.');
+      return;
     }
 
-    const input = this._loginForm.value as SignInInput;
-
-    this.authService.signIn(input)
+    this.authService.signIn(this._loginForm.value)
       .pipe(
         tap(output => {
           this.tokenService.store(output);
           this.router.navigate(['main']);
         })
       )
-      .subscribe();
+      .subscribe(() => this._loginForm.reset());
   }
 }

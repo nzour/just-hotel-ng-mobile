@@ -1,4 +1,5 @@
 import { SharedInjectable } from '../shared-service.module';
+import { TokenInfo } from '../types/manual';
 
 @SharedInjectable()
 export class TokenService {

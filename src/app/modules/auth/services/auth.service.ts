@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthInjectable } from '../auth-services.module';
+import { TokenInfo } from '../../shared/types/manual';
 
 @AuthInjectable()
 export class AuthService {

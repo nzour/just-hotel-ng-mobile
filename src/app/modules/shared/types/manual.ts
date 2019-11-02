@@ -1,9 +1,11 @@
-type Guid = string;
+export type Guid = string;
 
-type UserRole = 'Manager' | 'Employee' | 'Client';
+export type UserRole = 'Manager' | 'Employee' | 'Client';
 
-interface TokenInfo {
+export interface TokenInfo {
   token: string,
   userId: Guid,
   role: UserRole
 }
+
+export type IonicColor = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'dark' | 'medium' | 'light';

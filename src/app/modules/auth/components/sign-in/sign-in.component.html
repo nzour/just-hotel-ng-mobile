@@ -1,8 +1,8 @@
-<ion-header class="ion-margin">
+<ion-header>
     Авторизация
 </ion-header>
 
-<ion-content>
+<ion-content class="sign-in-content">
     <form [formGroup]="loginForm">
         <ion-item>
             <ion-input
@@ -14,17 +14,21 @@
 
         <ion-item>
             <ion-input
+                    class="input"
                     type="password"
                     placeholder="Пароль"
                     formControlName="password">
             </ion-input>
         </ion-item>
-
-        <ion-button
-                (click)="submit()"
-                class="ion-margin"
-                expand="block">
-            Войти
-        </ion-button>
     </form>
 </ion-content>
+
+<ion-footer>
+    <ion-button
+            (click)="submit()"
+            class=""
+            color="tertiary"
+            expand="block">
+        Войти
+    </ion-button>
+</ion-footer>

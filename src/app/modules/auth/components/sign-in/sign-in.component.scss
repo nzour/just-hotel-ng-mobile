@@ -1,0 +1,26 @@
+@import "src/global";
+
+ion-header {
+  color: var(--ion-color-tertiary);
+  font-size: 1.4em;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+}
+
+ion-content {
+  --padding-top: 40%;
+
+  ion-item {
+    margin: 0 10px 0 10px;
+  }
+}
+
+ion-footer {
+  --border: 0;
+  padding-bottom: 20px;
+
+  ion-button {
+    height: 50px;
+  }
+}
