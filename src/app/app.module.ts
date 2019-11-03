@@ -9,17 +9,25 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './modules/shared/shared.module';
-import { CommonModule } from '@angular/common';
+import { AuthModule } from './modules/auth/auth.module';
+import { MainModule } from './modules/main/main.module';
+import { ProfileModule } from './modules/profile/profile.module';
+
+const modules = [
+  SharedModule,
+  AuthModule,
+  MainModule,
+  ProfileModule
+];
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [
-    CommonModule,
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    SharedModule
+    ...modules
   ],
   providers: [
     StatusBar,
@@ -28,4 +36,5 @@ import { CommonModule } from '@angular/common';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule {
+}

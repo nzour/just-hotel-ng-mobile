@@ -5,10 +5,10 @@ import { Router } from '@angular/router';
 import { LoaderService } from '../services/loader.service';
 import { environment } from '../../../../environments/environment';
 import { catchError, finalize } from 'rxjs/operators';
-import { RootInjectable } from '../shared-service.module';
+import { AppInjectable } from '../shared-service.module';
 import { NotifierService } from '../services/notifier.service';
 
-@RootInjectable()
+@AppInjectable()
 export class ApiInterceptor implements HttpInterceptor {
 
   constructor(

@@ -1,8 +1,8 @@
-import { RootInjectable } from '../shared-service.module';
+import { AppInjectable } from '../shared-service.module';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@RootInjectable()
+@AppInjectable()
 export class LoaderService {
 
   private _stack = new BehaviorSubject<number>(0);

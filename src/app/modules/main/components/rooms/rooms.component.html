@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-title>
+        Только лучшие номера
+    </ion-title>
+</ion-header>
+
+<ion-content>
+
+    <ion-card-content *ngIf="total">
+
+        <ion-card *ngFor="let room of rooms">
+
+            <ion-card-title class="ion-text-center">
+                MAIN IMAGE HERE
+            </ion-card-title>
+
+            <ion-card-content>
+                <ion-toolbar>
+                    <ion-chip color="tertiary" slot="secondary">Подробнее</ion-chip>
+                </ion-toolbar>
+            </ion-card-content>
+
+        </ion-card>
+
+    </ion-card-content>
+</ion-content>

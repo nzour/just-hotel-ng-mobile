@@ -4,6 +4,9 @@ import { AppComponent } from './app.component';
 import { HasNotTokenGuard } from './modules/shared/guards/has-not-token.guard';
 import { AuthModule } from './modules/auth/auth.module';
 import { environment } from '../environments/environment';
+import { MainModule } from './modules/main/main.module';
+import { ProfileModule } from './modules/profile/profile.module';
+import { HasTokenGuard } from './modules/shared/guards/has-token.guard';
 
 const routes: Routes = [
   {
@@ -12,18 +15,24 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'auth',
+        redirectTo: 'main',
         pathMatch: 'full'
+      },
+      {
+        path: 'main',
+        loadChildren: () => MainModule
       },
       {
         path: 'auth',
         loadChildren: () => AuthModule,
         canActivate: [HasNotTokenGuard]
       },
-      // {
-      //   path: 'main',
-      //   canActivate: [HasTokenGuard]
-      // }
+      {
+        path: 'profile',
+        loadChildren: () => ProfileModule,
+        canActivate: [HasTokenGuard],
+        canActivateChild: [HasTokenGuard]
+      }
     ]
   }
 ];
@@ -32,4 +41,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', enableTracing: environment.enableRoutingTracing })],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

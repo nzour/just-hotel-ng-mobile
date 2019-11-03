@@ -1,8 +1,8 @@
 import { CanActivate, CanActivateChild, Router } from '@angular/router';
-import { RootInjectable } from '../shared-service.module';
+import { AppInjectable } from '../shared-service.module';
 import { TokenService } from '../services/token.service';
 
-@RootInjectable()
+@AppInjectable()
 export class HasNotTokenGuard implements CanActivate, CanActivateChild {
 
   constructor(private router: Router, private tokenService: TokenService) { }

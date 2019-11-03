@@ -24,4 +24,12 @@ export class TokenService {
 
     return JSON.parse(localStorage.getItem(this.USER_KEY)!);
   }
+
+  get tryGetTokenInfo(): TokenInfo | undefined {
+    if (!this.hasTokeInfo) {
+      return undefined;
+    }
+
+    return this.tokenInfo;
+  }
 }

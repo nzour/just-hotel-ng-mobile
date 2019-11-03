@@ -4,7 +4,7 @@ import { Injectable, NgModule } from '@angular/core';
 export class SharedServiceModule {
 }
 
-export function RootInjectable() {
+export function AppInjectable() {
   return Injectable({ providedIn: 'root' });
 }
 
