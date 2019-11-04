@@ -25,7 +25,7 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
     ReactiveFormsModule,
     FormsModule,
     CommonModule,
-    SharedServiceModule
+    SharedServiceModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }

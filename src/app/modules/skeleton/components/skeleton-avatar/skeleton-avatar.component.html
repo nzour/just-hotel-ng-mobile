@@ -1,0 +1,19 @@
+<ion-grid *ngIf="columnSize">
+    <ion-row>
+        <ion-col *ngFor="let i of count | countable">
+            <ion-avatar>
+                <ion-skeleton-text></ion-skeleton-text>
+            </ion-avatar>
+        </ion-col>
+    </ion-row>
+</ion-grid>
+
+<ng-template [ngIf]="!columnSize">
+    <ng-template *ngFor="let i of count | countable">
+        <ion-avatar>
+            <ion-skeleton-text></ion-skeleton-text>
+        </ion-avatar>
+    </ng-template>
+</ng-template>
+
+<ng-content></ng-content>
