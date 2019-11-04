@@ -3,7 +3,7 @@ export function urlParams(...objects: any[]): string {
   let params = Array<string>();
 
   for (let obj of objects) {
-    if (!obj) {
+    if (null === obj || undefined === obj) {
       continue;
     }
 
@@ -14,7 +14,7 @@ export function urlParams(...objects: any[]): string {
 
       const value = obj[property];
 
-      if (!value) {
+      if (null === value || undefined === value) {
         continue;
       }
 
