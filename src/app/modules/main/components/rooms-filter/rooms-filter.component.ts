@@ -10,24 +10,25 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class RoomsFilterComponent {
 
+  private _form!: FormGroup;
+
   constructor(private modals: ModalController) { }
-
-  private _filter: RoomInputFilter = {};
-
-  @Input() set filter(filter: RoomInputFilter) {
-    this._filter = filter;
-  }
-
-  private _form = new FormGroup({
-    isRented: new FormControl(),
-    roomType: new FormControl()
-  });
 
   get form(): FormGroup {
     return this._form;
   }
 
+  @Input() set filter(filter: RoomInputFilter) {
+    this._form = new FormGroup({
+      isRented: new FormControl(filter.isRented),
+      roomTypes: new FormControl(filter.roomTypes)
+    });
+  }
+
   async close(): Promise<void> {
-    await this.modals.dismiss(this._filter);
+    await this.modals.dismiss({
+      isRented: this._form.value.isRented,
+      roomTypes: this._form.value.roomTypes
+    });
   }
 }

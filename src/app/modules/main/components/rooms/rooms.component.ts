@@ -5,6 +5,7 @@ import { TokenInfo } from '../../../shared/types/manual';
 import { Pagination } from '../../../shared/types/pagination';
 import { ModalController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
+import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
 
 @Component({
   selector: 'app-rooms',
@@ -17,7 +18,7 @@ export class RoomsComponent implements OnInit {
   private _loggedUser?: TokenInfo;
   private _pagination: Pagination = { limit: 5 };
   private _total?: number;
-  private _filter: RoomInputFilter = { isRented: false };
+  private _filter: RoomInputFilter = {};
 
   constructor(
     private roomService: RoomService,
@@ -47,23 +48,30 @@ export class RoomsComponent implements OnInit {
   }
 
   async openFilters(): Promise<void> {
-    await this.modals
+    const modal = await this.modals
       .create({
         component: RoomsFilterComponent,
         componentProps: {
           filter: this._filter
         }
-      })
-      .then(async (modal: HTMLIonModalElement) => {
-        await modal.present();
       });
+
+    await modal.present();
+    const { data }: OverlayEventDetail<RoomInputFilter> = await modal.onWillDismiss();
+
+    if (data) {
+      this._filter.isRented = data.isRented;
+      this._filter.roomTypes = data.roomTypes;
+    }
+
+    this.fetchRooms();
   }
 
   private fetchRooms(): void {
     this.roomService.getAllRooms(this._pagination, this._filter)
-      .subscribe(response => {
-        this._total = response.total;
-        this._rooms = response.data;
+      .subscribe(({ data, total }) => {
+        this._total = total;
+        this._rooms = data;
       });
   }
 }

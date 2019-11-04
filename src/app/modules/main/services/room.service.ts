@@ -24,7 +24,7 @@ export class RoomService {
 
 export interface RoomInputFilter {
   isRented?: boolean | null;
-  roomType?: RoomType[];
+  roomTypes?: RoomType[];
 }
 
 export interface RoomOutput {

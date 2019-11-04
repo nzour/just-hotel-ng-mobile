@@ -38,7 +38,13 @@
     </ion-toolbar>
 
     <ion-toolbar>
-        <ion-select formControlName="roomType" multiple placeholder="Укажите кол-во комнат">
+        <ion-list>
+            <ion-list-header>
+                <ion-label>По количеству комнат</ion-label>
+            </ion-list-header>
+        </ion-list>
+
+        <ion-select formControlName="roomTypes" multiple placeholder="Укажите кол-во комнат">
             <ion-select-option value="Single">Однокомнатная</ion-select-option>
             <ion-select-option value="Double">Двухкомнатная</ion-select-option>
             <ion-select-option value="Triple">Трехкомнатная</ion-select-option>
