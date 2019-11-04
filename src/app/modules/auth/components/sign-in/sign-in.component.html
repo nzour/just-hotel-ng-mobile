@@ -1,6 +1,4 @@
-<ion-header>
-    Авторизация
-</ion-header>
+<app-header title="Авторизация"></app-header>
 
 <ion-content class="sign-in-content">
     <form [formGroup]="loginForm">
@@ -23,7 +21,7 @@
     </form>
 </ion-content>
 
-<ion-footer>
+<ion-footer no-border>
     <ion-button
             (click)="submit()"
             class=""

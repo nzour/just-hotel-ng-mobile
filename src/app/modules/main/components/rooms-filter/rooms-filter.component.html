@@ -1,14 +1,13 @@
 <ion-header>
     <ion-toolbar>
+        <ion-title class="ion-text-center">
+            Фильтрация комнат
+        </ion-title>
         <ion-button (click)="close()" color="danger" slot="secondary">
             <ion-label>Закрыть</ion-label>
             <ion-icon name="close"></ion-icon>
         </ion-button>
     </ion-toolbar>
-
-    <ion-title class="ion-text-center">
-        Фильтрация комнат
-    </ion-title>
 </ion-header>
 
 <ion-content [formGroup]="form">

@@ -1,17 +1,12 @@
-<ion-header>
-    <ion-title class="ion-margin-bottom">
-        Только лучшие номера
-    </ion-title>
-
+<app-header title="Комнаты"></app-header>
+<ion-content>
     <ion-toolbar>
         <ion-button (click)="openFilters()"
                     color="tertiary"
                     slot="secondary">Фильтры
         </ion-button>
     </ion-toolbar>
-</ion-header>
 
-<ion-content>
     <ion-card-content *ngIf="total">
 
         <ion-card *ngFor="let room of rooms">

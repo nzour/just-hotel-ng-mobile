@@ -1,4 +1,9 @@
 <ion-app>
-  <ion-progress-bar type="indeterminate" *ngIf="isLoading | async" class="loader"></ion-progress-bar>
-  <ion-router-outlet></ion-router-outlet>
+    <ion-progress-bar *ngIf="isLoading | async" class="loader" type="indeterminate"></ion-progress-bar>
+
+    <ion-menu contentId="main_content" id="main_menu" menuId="main_menu">
+        <app-menu></app-menu>
+    </ion-menu>
+
+    <ion-router-outlet id="main_content"></ion-router-outlet>
 </ion-app>

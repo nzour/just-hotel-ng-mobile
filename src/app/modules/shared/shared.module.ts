@@ -6,9 +6,11 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiInterceptor } from './interceptors/api.interceptor';
+import { HeaderComponent } from './components/header/header.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [HeaderComponent, MenuComponent],
   imports: [
     IonicModule,
     HttpClientModule,
@@ -26,6 +28,8 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
     FormsModule,
     CommonModule,
     SharedServiceModule,
+    HeaderComponent,
+    MenuComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }

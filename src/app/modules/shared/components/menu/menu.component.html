@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-title color="tertiary">
+        <h4 class="ion-padding-start">Зобор</h4>
+    </ion-title>
+</ion-header>
+
+<ion-list>
+    <ion-item [routerLink]="['main']">
+        <ion-icon class="ion-margin-end" name="home"></ion-icon>
+        <ion-label>Главная</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['rooms']">
+        <ion-icon class="ion-margin-end" name="bed"></ion-icon>
+        <ion-label>Комнаты</ion-label>
+    </ion-item>
+
+    <ion-item [routerLink]="['auth']">
+        <ion-icon class="ion-margin-end" name="log-in"></ion-icon>
+        <ion-label>Авторизация</ion-label>
+    </ion-item>
+</ion-list>
