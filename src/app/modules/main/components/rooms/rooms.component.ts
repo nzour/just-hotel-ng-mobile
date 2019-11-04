@@ -3,6 +3,8 @@ import { RoomInputFilter, RoomOutput, RoomService } from '../../services/room.se
 import { TokenService } from '../../../shared/services/token.service';
 import { TokenInfo } from '../../../shared/types/manual';
 import { Pagination } from '../../../shared/types/pagination';
+import { ModalController } from '@ionic/angular';
+import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 
 @Component({
   selector: 'app-rooms',
@@ -11,37 +13,50 @@ import { Pagination } from '../../../shared/types/pagination';
 })
 export class RoomsComponent implements OnInit {
 
-  private _pagination: Pagination = { limit: 5 };
-
-  constructor(private roomService: RoomService, private tokeService: TokenService) { }
-
   private _rooms = Array<RoomOutput>();
+  private _loggedUser?: TokenInfo;
+  private _pagination: Pagination = { limit: 5 };
+  private _total?: number;
+  private _filter: RoomInputFilter = { isRented: false };
+
+  constructor(
+    private roomService: RoomService,
+    private tokeService: TokenService,
+    private modals: ModalController
+  ) { }
+
+  ngOnInit() {
+    this.fetchRooms();
+    this._loggedUser = this.tokeService.tryGetTokenInfo;
+  }
 
   get rooms(): RoomOutput[] {
     return this._rooms;
   }
 
-  private _loggedUser?: TokenInfo;
-
   get loggedUser(): TokenInfo | undefined {
     return this._loggedUser;
   }
-
-  private _total?: number;
 
   get total(): number | undefined {
     return this._total;
   }
 
-  private _filter: RoomInputFilter = {};
-
   get filter(): RoomInputFilter {
     return this._filter;
   }
 
-  ngOnInit() {
-    this.fetchRooms();
-    this._loggedUser = this.tokeService.tryGetTokenInfo;
+  async openFilters(): Promise<void> {
+    await this.modals
+      .create({
+        component: RoomsFilterComponent,
+        componentProps: {
+          filter: this._filter
+        }
+      })
+      .then(async (modal: HTMLIonModalElement) => {
+        await modal.present();
+      });
   }
 
   private fetchRooms(): void {

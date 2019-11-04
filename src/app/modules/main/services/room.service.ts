@@ -23,8 +23,8 @@ export class RoomService {
 // region types
 
 export interface RoomInputFilter {
-  isRented?: boolean;
-  roomType?: string;
+  isRented?: boolean | null;
+  roomType?: RoomType[];
 }
 
 export interface RoomOutput {
