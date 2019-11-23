@@ -9,7 +9,7 @@
                        placeholder="Логин"
                        formControlName="login">
             </ion-input>
-            <ion-label *ngIf="hasFormError('login')">
+            <ion-label *ngIf="hasFormError('login')" class="error-message">
                 Обязательное поле
             </ion-label>
         </ion-item>
@@ -19,7 +19,7 @@
                        placeholder="Пароль"
                        formControlName="password">
             </ion-input>
-            <ion-label *ngIf="hasFormError('password')">
+            <ion-label *ngIf="hasFormError('password')" class="error-message">
                 Обязательное поле
             </ion-label>
         </ion-item>
