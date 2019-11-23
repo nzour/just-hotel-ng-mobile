@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileOutput, ProfileService } from '../services/profile.service';
-import { IonRefresher } from '@ionic/angular';
+import { AlertController, IonRefresher } from '@ionic/angular';
+import { TokenService } from '../../shared/services/token.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -11,7 +13,12 @@ export class ProfileComponent implements OnInit {
 
   private _profile?: ProfileOutput;
 
-  constructor(private profileService: ProfileService) { }
+  constructor(
+    private profileService: ProfileService,
+    private tokenService: TokenService,
+    private alerts: AlertController,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.fetchProfileData();
@@ -21,8 +28,21 @@ export class ProfileComponent implements OnInit {
     return this._profile;
   }
 
-  logout(): void {
-    // todo: implement
+  async logout(): Promise<void> {
+    const alert = await this.alerts.create({
+      header: 'Вы действительно хотите выйти?',
+      buttons: [
+        {
+          text: 'Подтвердить',
+          handler: async () => {
+            this.tokenService.clear();
+            await this.router.navigate(['/auth'])
+          }
+        },
+        'Отмена'
+      ]
+    });
+    await alert.present();
   }
 
   fetchProfileData(): void {
