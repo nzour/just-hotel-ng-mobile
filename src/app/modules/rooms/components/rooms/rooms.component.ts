@@ -3,7 +3,7 @@ import { RoomInputFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { TokenInfo } from '../../../shared/types/manual';
 import { Pagination } from '../../../shared/types/pagination';
-import { ModalController } from '@ionic/angular';
+import { IonRefresher, ModalController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
 import { RoomOutput } from '../../../shared/types/room';
@@ -23,21 +23,16 @@ export class RoomsComponent implements OnInit {
 
   constructor(
     private roomService: RoomService,
-    private tokeService: TokenService,
+    private tokenService: TokenService,
     private modals: ModalController
   ) { }
 
-  ngOnInit() {
-    this.fetchRooms();
-    this._loggedUser = this.tokeService.tryGetTokenInfo;
+  get isNotAuthorized(): boolean {
+    return !this.tokenService.hasTokeInfo;
   }
 
   get rooms(): RoomOutput[] {
     return this._rooms;
-  }
-
-  get loggedUser(): TokenInfo | undefined {
-    return this._loggedUser;
   }
 
   get total(): number | undefined {
@@ -46,6 +41,27 @@ export class RoomsComponent implements OnInit {
 
   get filter(): RoomInputFilter {
     return this._filter;
+  }
+
+  get isManager(): boolean {
+    if (this.isNotAuthorized) {
+      return false;
+    }
+
+    return 'Manager' === this.tokenService.tokenInfo.role;
+  }
+
+  get isClient(): boolean {
+    if (this.isNotAuthorized) {
+      return false;
+    }
+
+    return 'Client' === this.tokenService.tokenInfo.role;
+  }
+
+  ngOnInit() {
+    this.fetchRooms();
+    this._loggedUser = this.tokenService.tryGetTokenInfo;
   }
 
   async openFilters(): Promise<void> {
@@ -68,9 +84,14 @@ export class RoomsComponent implements OnInit {
     this.fetchRooms();
   }
 
+  async refreshRooms(refresher: IonRefresher): Promise<void> {
+    await refresher.complete();
+    this.fetchRooms();
+  }
+
   private fetchRooms(): void {
     this.roomService.getAllRooms(this._pagination, this._filter)
-      .subscribe(({ data, total }) => {
+      .subscribe(({ total, data }) => {
         this._total = total;
         this._rooms = data;
       });

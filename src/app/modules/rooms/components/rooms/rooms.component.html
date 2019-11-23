@@ -1,31 +1,66 @@
 <ion-header>
-    <ion-title class="ion-margin-bottom">
-        Только лучшие номера
-    </ion-title>
+    <ion-toolbar class="ion-margin-top ion-text-center">
+        <ion-label>
+            У нас вы найдете только лучшие номера
+        </ion-label>
+    </ion-toolbar>
 
-    <ion-toolbar>
-        <ion-button (click)="openFilters()"
-                    color="tertiary"
-                    slot="secondary">Фильтры
-        </ion-button>
+    <ion-toolbar class="ion-text-center">
+        <ion-chip (click)="openFilters()"
+                  color="tertiary">
+            Открыть фильтры
+        </ion-chip>
     </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-refresher #refresher (ionRefresh)="refreshRooms(refresher)" slot="fixed"></ion-refresher>
+
     <ion-card-content *ngIf="total">
 
         <ion-card *ngFor="let room of rooms">
 
             <ion-card-title class="ion-text-center">
-                MAIN IMAGE HERE
+                <ion-img src="assets/img/kek.jpg"></ion-img>
             </ion-card-title>
 
             <ion-card-content>
-                <ion-toolbar>
-                    <ion-chip color="tertiary" slot="secondary">Подробнее</ion-chip>
-                </ion-toolbar>
-            </ion-card-content>
 
+                <ion-toolbar>
+                    <ion-label class="bold" slot="start">
+                        {{ room.roomType | translateRoomType }}
+                    </ion-label>
+
+                    <ion-label slot="end">
+                        {{ room.cost }} руб/сутки
+                    </ion-label>
+                </ion-toolbar>
+
+                <div class="item">
+                    <ion-chip color="tertiary">
+                        Подробнее
+                    </ion-chip>
+                </div>
+
+                <div *ngIf="isClient" class="item">
+                    <ion-chip color="medium">
+                        Арендовать
+                    </ion-chip>
+                </div>
+
+                <div *ngIf="isManager" class="item">
+                    <ion-chip color="medium">
+                        Управление
+                    </ion-chip>
+                </div>
+
+                <div *ngIf="isNotAuthorized" class="item">
+                    <ion-label style="color:grey; font-size: 11px">
+                        Для аренды необходимо авторизоваться
+                    </ion-label>
+                </div>
+
+            </ion-card-content>
         </ion-card>
 
     </ion-card-content>

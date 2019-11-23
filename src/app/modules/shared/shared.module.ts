@@ -8,11 +8,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiInterceptor } from './interceptors/api.interceptor';
 import { CountablePipe } from './pipes/countable.pipe';
 import { RolePipe } from './pipes/role.pipe';
+import { RoomTypePipe } from './pipes/room-type.pipe';
 
 @NgModule({
   declarations: [
     RolePipe,
-    CountablePipe
+    CountablePipe,
+    RoomTypePipe
   ],
   imports: [
     IonicModule,
@@ -33,6 +35,7 @@ import { RolePipe } from './pipes/role.pipe';
     SharedServiceModule,
     CountablePipe,
     RolePipe,
+    RoomTypePipe,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
