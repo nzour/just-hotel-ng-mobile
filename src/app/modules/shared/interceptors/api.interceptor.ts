@@ -25,8 +25,6 @@ export class ApiInterceptor implements HttpInterceptor {
       url: `${environment.apiUrl}/${req.url}`
     });
 
-    // test
-
     if (this.tokenService.hasTokeInfo) {
       req = req.clone({
         setHeaders: { Authorization: `Bearer ${this.tokenService.tokenInfo.token}` }
