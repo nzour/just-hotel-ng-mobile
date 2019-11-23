@@ -6,9 +6,14 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiInterceptor } from './interceptors/api.interceptor';
+import { CountablePipe } from './pipes/countable.pipe';
+import { RolePipe } from './pipes/role.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    RolePipe,
+    CountablePipe
+  ],
   imports: [
     IonicModule,
     HttpClientModule,
@@ -26,6 +31,8 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
     FormsModule,
     CommonModule,
     SharedServiceModule,
+    CountablePipe,
+    RolePipe,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
