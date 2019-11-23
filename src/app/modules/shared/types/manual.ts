@@ -1,5 +1,7 @@
 export type Guid = string;
 
+export type Timestamp = number;
+
 export type UserRole = 'Manager' | 'Employee' | 'Client';
 
 export interface UserOutput {

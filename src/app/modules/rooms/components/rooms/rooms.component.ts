@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomInputFilter, RoomOutput, RoomService } from '../../services/room.service';
+import { RoomInputFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { TokenInfo } from '../../../shared/types/manual';
 import { Pagination } from '../../../shared/types/pagination';
 import { ModalController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
+import { RoomOutput } from '../../../shared/types/room';
 
 @Component({
   selector: 'app-rooms',

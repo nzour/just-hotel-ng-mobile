@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { PaginatedData, Pagination } from '../../shared/types/pagination';
-import { Guid, UserOutput } from '../../shared/types/manual';
+import { Guid } from '../../shared/types/manual';
 import { Observable } from 'rxjs';
 import { urlParams } from '../../shared/utils/functional';
 import { RoomsInjectable } from '../rooms-services.module';
+import { RoomOutput, RoomType } from '../../shared/types/room';
 
 @RoomsInjectable()
 export class RoomService {
@@ -26,18 +27,5 @@ export interface RoomInputFilter {
   isRented?: boolean | null;
   roomTypes?: RoomType[];
 }
-
-export interface RoomOutput {
-  id: Guid;
-  roomType: RoomType;
-  cost: number;
-  isRented: boolean;
-}
-
-export type RoomWithEmployeeOutput = RoomOutput & {
-  employees: UserOutput[];
-}
-
-export type RoomType = 'Single' | 'Double' | 'Triple';
 
 // endregion
