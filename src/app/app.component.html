@@ -1,4 +1,23 @@
 <ion-app>
-  <ion-progress-bar type="indeterminate" *ngIf="isLoading | async" class="loader"></ion-progress-bar>
-  <ion-router-outlet></ion-router-outlet>
+    <ion-progress-bar type="indeterminate" *ngIf="isLoading | async" class="loader"></ion-progress-bar>
+
+    <ion-tabs>
+        <ion-tab-bar>
+            <ion-tab-button tab="main">
+                <ion-label>Главная</ion-label>
+            </ion-tab-button>
+
+            <ion-tab-button tab="rooms">
+                <ion-label>Комнаты</ion-label>
+            </ion-tab-button>
+
+            <ion-tab-button *ngIf="isAuthorized" tab="profile">
+                <ion-label>Профиль</ion-label>
+            </ion-tab-button>
+
+            <ion-tab-button *ngIf="!isAuthorized" tab="auth">
+                <ion-label>Авторизация</ion-label>
+            </ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
 </ion-app>

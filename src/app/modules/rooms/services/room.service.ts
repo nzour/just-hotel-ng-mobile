@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { PaginatedData, Pagination } from '../../shared/types/pagination';
 import { Guid, UserOutput } from '../../shared/types/manual';
 import { Observable } from 'rxjs';
-import { MainInjectable } from '../main-services.module';
 import { urlParams } from '../../shared/utils/functional';
+import { RoomsInjectable } from '../rooms-services.module';
 
-@MainInjectable()
+@RoomsInjectable()
 export class RoomService {
 
   constructor(private http: HttpClient) { }
