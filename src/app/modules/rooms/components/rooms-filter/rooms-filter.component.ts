@@ -20,7 +20,7 @@ export class RoomsFilterComponent {
 
   @Input() set filter(filter: RoomInputFilter) {
     this._form = new FormGroup({
-      isRented: new FormControl(this.isRentedToFormValue(filter.isRented)),
+      isRented: new FormControl(this.convertIsRentedToFormValue(filter.isRented)),
       roomTypes: new FormControl(filter.roomTypes)
     });
   }
@@ -31,12 +31,16 @@ export class RoomsFilterComponent {
 
   async applyFilterAndClose(): Promise<void> {
     await this.modals.dismiss({
-      isRented: this.isRentedToFilterValue(),
+      isRented: this.convertIsRentedToFilterValue(),
       roomTypes: this._form.value.roomTypes
     });
   }
 
-  private isRentedToFilterValue(): boolean | null {
+  resetFilter(): void {
+    this._form.reset();
+  }
+
+  private convertIsRentedToFilterValue(): boolean | null {
     switch (this._form.value.isRented) {
       case 'onlyRented':
         return true;
@@ -49,7 +53,7 @@ export class RoomsFilterComponent {
     }
   }
 
-  private isRentedToFormValue(value?: boolean | null): string {
+  private convertIsRentedToFormValue(value?: boolean | null): string {
     switch (value) {
       case true:
         return 'onlyRented';
