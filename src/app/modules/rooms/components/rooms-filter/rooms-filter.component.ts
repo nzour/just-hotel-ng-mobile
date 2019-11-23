@@ -20,15 +20,45 @@ export class RoomsFilterComponent {
 
   @Input() set filter(filter: RoomInputFilter) {
     this._form = new FormGroup({
-      isRented: new FormControl(filter.isRented),
+      isRented: new FormControl(this.isRentedToFormValue(filter.isRented)),
       roomTypes: new FormControl(filter.roomTypes)
     });
   }
 
   async close(): Promise<void> {
+    await this.modals.dismiss();
+  }
+
+  async applyFilterAndClose(): Promise<void> {
     await this.modals.dismiss({
-      isRented: this._form.value.isRented,
+      isRented: this.isRentedToFilterValue(),
       roomTypes: this._form.value.roomTypes
     });
+  }
+
+  private isRentedToFilterValue(): boolean | null {
+    switch (this._form.value.isRented) {
+      case 'onlyRented':
+        return true;
+
+      case 'onlyNotRented':
+        return false;
+
+      default:
+        return null;
+    }
+  }
+
+  private isRentedToFormValue(value?: boolean | null): string {
+    switch (value) {
+      case true:
+        return 'onlyRented';
+
+      case false:
+        return 'onlyNotRented';
+
+      default:
+        return 'all';
+    }
   }
 }

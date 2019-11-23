@@ -1,10 +1,4 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-button (click)="close()" color="light" slot="secondary" style="--box-shadow:none">
-            <ion-icon name="close"></ion-icon>
-        </ion-button>
-    </ion-toolbar>
-
     <ion-title class="ion-text-center">
         Фильтрация комнат
     </ion-title>
@@ -19,17 +13,17 @@
 
             <ion-radio-group formControlName="isRented">
                 <ion-item>
-                    <ion-radio [value]="null" mode="ios"></ion-radio>
+                    <ion-radio mode="ios" value="all"></ion-radio>
                     <ion-label>Все</ion-label>
                 </ion-item>
 
                 <ion-item>
-                    <ion-radio [value]="false" mode="ios"></ion-radio>
+                    <ion-radio mode="ios" value="onlyNotRented"></ion-radio>
                     <ion-label>Только свободные</ion-label>
                 </ion-item>
 
                 <ion-item>
-                    <ion-radio [value]="true" mode="ios"></ion-radio>
+                    <ion-radio mode="ios" value="onlyRented"></ion-radio>
                     <ion-label>Только занятые</ion-label>
                 </ion-item>
             </ion-radio-group>
@@ -50,3 +44,18 @@
         </ion-select>
     </ion-toolbar>
 </ion-content>
+
+<ion-footer class="ion-margin-bottom" no-border>
+    <ion-button (click)="applyFilterAndClose()"
+                class="ion-margin-bottom"
+                color="tertiary"
+                expand="block">
+        Применить
+    </ion-button>
+
+    <ion-button (click)="close()"
+                color="light"
+                expand="block">
+        Отменить
+    </ion-button>
+</ion-footer>
