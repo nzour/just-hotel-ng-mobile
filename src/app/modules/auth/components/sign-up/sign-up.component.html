@@ -1,0 +1,65 @@
+<ion-header>
+    Регистрация
+</ion-header>
+
+<ion-content class="sign-in-content">
+    <form [formGroup]="signUpForm">
+        <ion-item>
+            <ion-input type="text"
+                       placeholder="Ваше имя"
+                       formControlName="firstName">
+            </ion-input>
+            <ion-label *ngIf="hasFormError('firstName', 'required')" class="error-message">
+                Обязательное поле
+            </ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-input type="text"
+                       placeholder="Ваша фамилия"
+                       formControlName="lastName">
+            </ion-input>
+            <ion-label *ngIf="hasFormError('lastName', 'required')" class="error-message">
+                Обязательное поле
+            </ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-input type="text"
+                       placeholder="Логин"
+                       formControlName="login">
+            </ion-input>
+            <ion-label *ngIf="hasFormError('login', 'required')" class="error-message">
+                Обязательное поле
+            </ion-label>
+        </ion-item>
+
+        <ion-item>
+            <ion-input type="password"
+                       placeholder="Пароль"
+                       formControlName="password">
+            </ion-input>
+            <ion-label *ngIf="hasFormError('password', 'required')" class="error-message">
+                Обязательное поле
+            </ion-label>
+            <ion-label *ngIf="hasFormError('password', 'minLength')" class="error-message">
+                Минимальная длина - 6 символов
+            </ion-label>
+        </ion-item>
+    </form>
+
+    <ion-toolbar class="ion-text-center">
+        <ion-label [routerLink]="['..']">
+            Перейти к авторизации
+        </ion-label>
+    </ion-toolbar>
+
+</ion-content>
+
+<ion-footer>
+    <ion-button (click)="submit()"
+                color="tertiary"
+                expand="block">
+        Зарегистрироваться
+    </ion-button>
+</ion-footer>

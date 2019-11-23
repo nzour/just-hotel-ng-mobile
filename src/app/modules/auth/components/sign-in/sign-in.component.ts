@@ -4,12 +4,11 @@ import { TokenService } from '../../../shared/services/token.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { NotifierService } from '../../../shared/services/notifier.service';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss'],
+  styleUrls: ['../auth.component.scss'],
 })
 export class SignInComponent implements OnDestroy {
 
@@ -21,8 +20,7 @@ export class SignInComponent implements OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private tokenService: TokenService,
-    private notifier: NotifierService
+    private tokenService: TokenService
   ) { }
 
   ngOnDestroy(): void {
@@ -35,17 +33,26 @@ export class SignInComponent implements OnDestroy {
 
   submit(): void {
     if (!this._loginForm.valid) {
-      this.notifier.dispatchError('Оба поля должны быть заполнены.');
       return;
     }
 
     this.authService.signIn(this._loginForm.value)
       .pipe(
-        tap(output => {
+        tap(async output => {
           this.tokenService.store(output);
-          this.router.navigate(['main']);
+          await this.router.navigate(['/profile']);
         })
       )
-      .subscribe(() => this._loginForm.reset());
+      .subscribe(this.ngOnDestroy);
+  }
+
+  hasFormError(controlName: string): boolean {
+    const control = this._loginForm.get(controlName);
+
+    if (!control || !control.dirty) {
+      return false;
+    }
+
+    return control.hasError('required');
   }
 }

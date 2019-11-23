@@ -5,30 +5,38 @@
 <ion-content class="sign-in-content">
     <form [formGroup]="loginForm">
         <ion-item>
-            <ion-input
-                    type="text"
-                    placeholder="Логин"
-                    formControlName="login">
+            <ion-input type="text"
+                       placeholder="Логин"
+                       formControlName="login">
             </ion-input>
+            <ion-label *ngIf="hasFormError('login')">
+                Обязательное поле
+            </ion-label>
         </ion-item>
 
         <ion-item>
-            <ion-input
-                    class="input"
-                    type="password"
-                    placeholder="Пароль"
-                    formControlName="password">
+            <ion-input type="password"
+                       placeholder="Пароль"
+                       formControlName="password">
             </ion-input>
+            <ion-label *ngIf="hasFormError('password')">
+                Обязательное поле
+            </ion-label>
         </ion-item>
     </form>
+
+    <ion-toolbar class="ion-text-center">
+        <ion-label [routerLink]="['sign-up']">
+            Перейти к регистрации
+        </ion-label>
+    </ion-toolbar>
+
 </ion-content>
 
 <ion-footer>
-    <ion-button
-            (click)="submit()"
-            class=""
-            color="tertiary"
-            expand="block">
+    <ion-button (click)="submit()"
+                color="tertiary"
+                expand="block">
         Войти
     </ion-button>
 </ion-footer>
