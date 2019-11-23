@@ -38,19 +38,22 @@
 
                 <div class="item">
                     <ion-chip color="tertiary">
-                        Подробнее
+                        <ion-icon name="open"></ion-icon>
+                        <ion-label>Подробнее</ion-label>
                     </ion-chip>
                 </div>
 
                 <div *ngIf="isClient" class="item">
                     <ion-chip color="medium">
-                        Арендовать
+                        <ion-icon name="wallet"></ion-icon>
+                        <ion-label>Арендовать</ion-label>
                     </ion-chip>
                 </div>
 
                 <div *ngIf="isManager" class="item">
                     <ion-chip color="medium">
-                        Управление
+                        <ion-icon name="settings"></ion-icon>
+                        <ion-label>Управление</ion-label>
                     </ion-chip>
                 </div>
 
