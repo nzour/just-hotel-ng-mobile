@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileOutput, ProfileService } from '../services/profile.service';
-import { AlertController, IonRefresher } from '@ionic/angular';
-import { TokenService } from '../../shared/services/token.service';
+import { ProfileOutput, ProfileService } from '../../services/profile.service';
+import { AlertController, IonRefresher, ModalController } from '@ionic/angular';
+import { TokenService } from '../../../shared/services/token.service';
 import { Router } from '@angular/router';
+import { UpdateNamesComponent } from '../update-names/update-names.component';
 
 @Component({
   selector: 'app-profile',
@@ -17,6 +18,7 @@ export class ProfileComponent implements OnInit {
     private profileService: ProfileService,
     private tokenService: TokenService,
     private alerts: AlertController,
+    private modals: ModalController,
     private router: Router
   ) { }
 
@@ -36,12 +38,13 @@ export class ProfileComponent implements OnInit {
           text: 'Подтвердить',
           handler: async () => {
             this.tokenService.clear();
-            await this.router.navigate(['/auth'])
+            await this.router.navigate(['/auth']);
           }
         },
         'Отмена'
       ]
     });
+
     await alert.present();
   }
 
@@ -53,5 +56,24 @@ export class ProfileComponent implements OnInit {
   async refreshProfileData(refresher: IonRefresher): Promise<void> {
     this.fetchProfileData();
     await refresher.complete();
+  }
+
+  async openUpdateNamesDialog(): Promise<void> {
+    if (!this.profile) {
+      return;
+    }
+
+    const modal = await this.modals.create({
+      component: UpdateNamesComponent,
+      componentProps: {
+        names: {
+          firstName: this.profile.firstName,
+          lastName: this.profile.lastName
+        }
+      }
+    });
+
+    modal.onWillDismiss().then(() => this.fetchProfileData());
+    await modal.present();
   }
 }

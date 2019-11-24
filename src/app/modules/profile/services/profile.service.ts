@@ -12,6 +12,9 @@ export class ProfileService {
     return this.http.get<ProfileOutput>('profile');
   }
 
+  updateNames(input: UpdateNamesInput): Observable<void> {
+    return this.http.put<void>('profile/update-names', input);
+  }
 }
 
 export interface ProfileOutput {
@@ -20,4 +23,9 @@ export interface ProfileOutput {
   lastName: string,
   login: string,
   role: UserRole
+}
+
+export interface UpdateNamesInput {
+  firstName: string,
+  lastName: string
 }
