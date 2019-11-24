@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { RoomInputFilter } from '../../services/room.service';
+import { RoomFilter } from '../../services/room.service';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -18,11 +18,8 @@ export class RoomsFilterComponent {
     return this._form;
   }
 
-  @Input() set filter(filter: RoomInputFilter) {
-    this._form = new FormGroup({
-      isRented: new FormControl(this.convertIsRentedToFormValue(filter.isRented)),
-      roomTypes: new FormControl(filter.roomTypes)
-    });
+  @Input() set filter(filter: RoomFilter) {
+    this._form = new FormGroup({ roomTypes: new FormControl(filter.roomTypes) });
   }
 
   async close(): Promise<void> {
@@ -30,39 +27,10 @@ export class RoomsFilterComponent {
   }
 
   async applyFilterAndClose(): Promise<void> {
-    await this.modals.dismiss({
-      isRented: this.convertIsRentedToFilterValue(),
-      roomTypes: this._form.value.roomTypes
-    });
+    await this.modals.dismiss({ roomTypes: this._form.value.roomTypes });
   }
 
   resetFilter(): void {
     this._form.reset();
-  }
-
-  private convertIsRentedToFilterValue(): boolean | null {
-    switch (this._form.value.isRented) {
-      case 'onlyRented':
-        return true;
-
-      case 'onlyNotRented':
-        return false;
-
-      default:
-        return null;
-    }
-  }
-
-  private convertIsRentedToFormValue(value?: boolean | null): string {
-    switch (value) {
-      case true:
-        return 'onlyRented';
-
-      case false:
-        return 'onlyNotRented';
-
-      default:
-        return 'all';
-    }
   }
 }

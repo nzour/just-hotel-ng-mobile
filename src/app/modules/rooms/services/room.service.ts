@@ -15,7 +15,7 @@ export class RoomService {
     return this.http.get<RoomOutput>(`rooms/${roomId}`);
   }
 
-  getAllRooms(pagination: Pagination, filter?: RoomInputFilter): Observable<PaginatedData<RoomOutput>> {
+  getAllRooms(pagination: Pagination, filter?: RoomFilter): Observable<PaginatedData<RoomOutput>> {
     return this.http
       .get<PaginatedData<RoomOutput>>(`rooms${urlParams(pagination, filter)}`);
   }
@@ -23,8 +23,7 @@ export class RoomService {
 
 // region types
 
-export interface RoomInputFilter {
-  isRented?: boolean | null;
+export interface RoomFilter {
   roomTypes?: RoomType[];
 }
 

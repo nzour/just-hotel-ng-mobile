@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RoomInputFilter, RoomService } from '../../services/room.service';
+import { RoomFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { TokenInfo } from '../../../shared/types/manual';
 import { Pagination } from '../../../shared/types/pagination';
@@ -19,7 +19,7 @@ export class RoomsComponent implements OnInit {
   private _loggedUser?: TokenInfo;
   private _pagination: Pagination = { limit: 5 };
   private _total?: number;
-  private _filter: RoomInputFilter = {};
+  private _filter: RoomFilter = {};
 
   constructor(
     private roomService: RoomService,
@@ -39,7 +39,7 @@ export class RoomsComponent implements OnInit {
     return this._total;
   }
 
-  get filter(): RoomInputFilter {
+  get filter(): RoomFilter {
     return this._filter;
   }
 
@@ -74,11 +74,12 @@ export class RoomsComponent implements OnInit {
       });
 
     await modal.present();
-    const { data }: OverlayEventDetail<RoomInputFilter> = await modal.onWillDismiss();
 
-    if (data) {
-      this._filter.isRented = data.isRented;
-      this._filter.roomTypes = data.roomTypes;
+    const returnedDataFromModal: OverlayEventDetail<RoomFilter> = await modal.onWillDismiss();
+    const filter = returnedDataFromModal.data;
+
+    if (filter) {
+      this._filter.roomTypes = filter.roomTypes;
     }
 
     this.fetchRooms();
