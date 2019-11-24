@@ -2,9 +2,6 @@ import { ProfileInjectable } from '../profile-services.module';
 import { HttpClient } from '@angular/common/http';
 import { Guid, UserRole } from '../../shared/types/manual';
 import { Observable } from 'rxjs';
-import { PaginatedData, Pagination } from '../../shared/types/pagination';
-import { RentOutput } from '../../shared/types/room';
-import { urlParams } from '../../shared/utils/functional';
 
 @ProfileInjectable()
 export class ProfileService {
@@ -15,9 +12,6 @@ export class ProfileService {
     return this.http.get<ProfileOutput>('profile');
   }
 
-  getUserRents(pagination: Pagination): Observable<PaginatedData<RentOutput>> {
-    return this.http.get<PaginatedData<RentOutput>>(`profile/rents${urlParams(pagination)}`);
-  }
 }
 
 export interface ProfileOutput {

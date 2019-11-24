@@ -1,18 +1,9 @@
-import { Guid, Timestamp } from './manual';
+import { Guid } from './manual';
 
 export interface RoomOutput {
   id: Guid;
   roomType: RoomType;
   cost: number;
-  isRented: boolean;
-}
-
-export interface RentOutput {
-  id: Guid,
-  cost: number,
-  room: RoomOutput,
-  startedAt: Timestamp,
-  expiredAt: Timestamp
 }
 
 export interface ServiceOutput {
