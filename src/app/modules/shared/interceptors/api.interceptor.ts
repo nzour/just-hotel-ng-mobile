@@ -65,7 +65,7 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   private isErrorReadable(error: any, response: HttpErrorResponse): error is ErrorResponse {
-    return ResponseCode.BAD_REQUEST !== response.status;
+    return ResponseCode.BAD_REQUEST === response.status;
   }
 }
 

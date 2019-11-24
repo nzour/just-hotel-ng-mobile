@@ -4,6 +4,7 @@ import { AlertController, IonRefresher, ModalController } from '@ionic/angular';
 import { TokenService } from '../../../shared/services/token.service';
 import { Router } from '@angular/router';
 import { UpdateNamesComponent } from '../update-names/update-names.component';
+import { UpdatePasswordComponent } from '../update-password/update-password.component';
 
 @Component({
   selector: 'app-profile',
@@ -74,6 +75,14 @@ export class ProfileComponent implements OnInit {
     });
 
     modal.onWillDismiss().then(() => this.fetchProfileData());
+    await modal.present();
+  }
+
+  async openUpdatePasswordDialog(): Promise<void> {
+    const modal = await this.modals.create({
+      component: UpdatePasswordComponent
+    });
+
     await modal.present();
   }
 }

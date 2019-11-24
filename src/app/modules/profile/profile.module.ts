@@ -4,15 +4,18 @@ import { ProfileRoutingModule } from './profile-routing.module';
 import { ProfileServicesModule } from './profile-services.module';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateNamesComponent } from './components/update-names/update-names.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
-    UpdateNamesComponent
+    UpdateNamesComponent,
+    UpdatePasswordComponent
   ],
   entryComponents: [
-    UpdateNamesComponent
+    UpdateNamesComponent,
+    UpdatePasswordComponent
   ],
   imports: [
     SharedModule,

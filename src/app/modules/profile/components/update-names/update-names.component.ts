@@ -10,9 +10,9 @@ import { ModalController } from '@ionic/angular';
 })
 export class UpdateNamesComponent {
 
-  constructor(private profileService: ProfileService, private modals: ModalController) { }
-
   private _namesForm!: FormGroup;
+
+  constructor(private profileService: ProfileService, private modals: ModalController) { }
 
   get namesForm(): FormGroup {
     return this._namesForm;
