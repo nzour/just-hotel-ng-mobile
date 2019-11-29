@@ -7,6 +7,9 @@ import { IonRefresher, ModalController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
 import { RoomOutput } from '../../../shared/types/room';
+import { Observable } from 'rxjs';
+import { LoaderService } from '../../../shared/services/loader.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rooms',
@@ -18,25 +21,31 @@ export class RoomsComponent implements OnInit {
   private _rooms = Array<RoomOutput>();
   private _loggedUser?: TokenInfo;
   private _pagination: Pagination = { limit: 5 };
-  private _total?: number;
-  private _filter: RoomFilter = {};
-
   constructor(
     private roomService: RoomService,
     private tokenService: TokenService,
-    private modals: ModalController
+    private modals: ModalController,
+    private loader: LoaderService
   ) { }
+
+  private _filter: RoomFilter = {};
+
+  private _total = 0;
 
   get rooms(): RoomOutput[] {
     return this._rooms;
   }
 
-  get total(): number | undefined {
+  get total(): number {
     return this._total;
   }
 
   get filter(): RoomFilter {
     return this._filter;
+  }
+
+  get isLoading(): Observable<boolean> {
+    return this.loader.isLoading;
   }
 
   ngOnInit() {
@@ -58,11 +67,10 @@ export class RoomsComponent implements OnInit {
     const returnedDataFromModal: OverlayEventDetail<RoomFilter> = await modal.onWillDismiss();
     const filter = returnedDataFromModal.data;
 
-    if (filter) {
+    if (filter && filter.roomTypes !== this._filter.roomTypes) {
       this._filter.roomTypes = filter.roomTypes;
+      this.fetchRooms();
     }
-
-    this.fetchRooms();
   }
 
   async openRoomPage(room: RoomOutput): Promise<void> {
@@ -81,10 +89,15 @@ export class RoomsComponent implements OnInit {
   }
 
   private fetchRooms(): void {
+    this.loader.increase();
+
     this.roomService.getAllRooms(this._pagination, this._filter)
+      .pipe(delay(5000))
       .subscribe(({ total, data }) => {
         this._total = total;
         this._rooms = data;
       });
+
+    setTimeout(() => this.loader.decrease(), 5000);
   }
 }
