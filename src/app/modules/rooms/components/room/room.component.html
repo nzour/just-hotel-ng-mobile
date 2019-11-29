@@ -1,3 +1,55 @@
-<p>
-    room works!
-</p>
+<ion-header>
+    <ion-toolbar>
+        <ion-button color="light" slot="end">
+            <ion-icon name="exit"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+
+    <ion-title class="ion-text-center">
+        Гостиница <b>Зобор</b>
+    </ion-title>
+</ion-header>
+
+<ion-content>
+    <ion-refresher #refresher (ionRefresh)="refresh(refresher)"></ion-refresher>
+
+    <ng-template [ngIfElse]="roomSkeleton" [ngIf]="room">
+        <ion-item class="ion-margin-horizontal" lines="none">
+            <ion-img src="assets/img/kek.jpg"></ion-img>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-toolbar>
+                <ion-label slot="start">
+                    <b>Тип комнаты:</b>
+                </ion-label>
+
+                <ion-label slot="end">
+                    {{ room.roomType | translateRoomType }}
+                </ion-label>
+            </ion-toolbar>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-toolbar>
+                <ion-label slot="start">
+                    <b>Стоимость:</b>
+                </ion-label>
+
+                <ion-label slot="end">
+                    {{ _room.cost }} руб/сутки
+                </ion-label>
+            </ion-toolbar>
+        </ion-item>
+
+        <app-room-action-buttons [roomId]="_room.id"></app-room-action-buttons>
+    </ng-template>
+
+    <ng-template #roomSkeleton>
+        <ion-item>
+            <ion-img>
+                <ion-skeleton-text></ion-skeleton-text>
+            </ion-img>
+        </ion-item>
+    </ng-template>
+</ion-content>

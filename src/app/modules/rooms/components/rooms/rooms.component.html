@@ -16,16 +16,13 @@
 <ion-content>
     <ion-refresher #refresher (ionRefresh)="refreshRooms(refresher)" slot="fixed"></ion-refresher>
 
-    <ion-card-content *ngIf="total">
-
+    <ng-template [ngIf]="total">
         <ion-card *ngFor="let room of rooms">
-
-            <ion-card-title class="ion-text-center">
+            <ion-card-title>
                 <ion-img src="assets/img/kek.jpg"></ion-img>
             </ion-card-title>
 
             <ion-card-content>
-
                 <ion-toolbar>
                     <ion-label class="bold" slot="start">
                         {{ room.roomType | translateRoomType }}
@@ -37,34 +34,14 @@
                 </ion-toolbar>
 
                 <div class="item">
-                    <ion-chip color="tertiary">
+                    <ion-chip (click)="openRoomPage(room)" color="tertiary">
                         <ion-icon name="open"></ion-icon>
                         <ion-label>Подробнее</ion-label>
                     </ion-chip>
                 </div>
 
-                <div *ngIf="isClient" class="item">
-                    <ion-chip color="medium">
-                        <ion-icon name="wallet"></ion-icon>
-                        <ion-label>Арендовать</ion-label>
-                    </ion-chip>
-                </div>
-
-                <div *ngIf="isManager" class="item">
-                    <ion-chip color="medium">
-                        <ion-icon name="settings"></ion-icon>
-                        <ion-label>Управление</ion-label>
-                    </ion-chip>
-                </div>
-
-                <div *ngIf="isNotAuthorized" class="item">
-                    <ion-label style="color:grey; font-size: 11px">
-                        Для аренды необходимо авторизоваться
-                    </ion-label>
-                </div>
-
+                <app-room-action-buttons [roomId]="room.id"></app-room-action-buttons>
             </ion-card-content>
         </ion-card>
-
-    </ion-card-content>
+    </ng-template>
 </ion-content>

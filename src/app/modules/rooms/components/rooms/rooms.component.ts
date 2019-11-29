@@ -11,7 +11,7 @@ import { RoomOutput } from '../../../shared/types/room';
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
-  styleUrls: ['./rooms.component.scss'],
+  styleUrls: ['../room-shared-styles.scss'],
 })
 export class RoomsComponent implements OnInit {
 
@@ -27,10 +27,6 @@ export class RoomsComponent implements OnInit {
     private modals: ModalController
   ) { }
 
-  get isNotAuthorized(): boolean {
-    return !this.tokenService.hasTokeInfo;
-  }
-
   get rooms(): RoomOutput[] {
     return this._rooms;
   }
@@ -41,22 +37,6 @@ export class RoomsComponent implements OnInit {
 
   get filter(): RoomFilter {
     return this._filter;
-  }
-
-  get isManager(): boolean {
-    if (this.isNotAuthorized) {
-      return false;
-    }
-
-    return 'Manager' === this.tokenService.tokenInfo.role;
-  }
-
-  get isClient(): boolean {
-    if (this.isNotAuthorized) {
-      return false;
-    }
-
-    return 'Client' === this.tokenService.tokenInfo.role;
   }
 
   ngOnInit() {
@@ -83,6 +63,16 @@ export class RoomsComponent implements OnInit {
     }
 
     this.fetchRooms();
+  }
+
+  async openRoomPage(room: RoomOutput): Promise<void> {
+    const modal = await this.modals
+      .create({
+        component: RoomsComponent,
+        componentProps: { room }
+      });
+
+    await modal.present();
   }
 
   async refreshRooms(refresher: IonRefresher): Promise<void> {

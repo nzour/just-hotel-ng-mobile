@@ -6,14 +6,19 @@ import { RoomsComponent } from './components/rooms/rooms.component';
 import { RoomsFilterComponent } from './components/rooms-filter/rooms-filter.component';
 import { RoomComponent } from './components/room/room.component';
 import { RoomsServicesModule } from './rooms-services.module';
+import { RoomActionButtonsComponent } from './components/room-action-buttons/room-action-buttons.component';
 
 @NgModule({
   declarations: [
     RoomComponent,
     RoomsComponent,
     RoomsFilterComponent,
+    RoomActionButtonsComponent
   ],
-  entryComponents: [RoomsFilterComponent],
+  entryComponents: [
+    RoomComponent,
+    RoomsFilterComponent
+  ],
   imports: [
     CommonModule,
     SharedModule,
@@ -21,4 +26,5 @@ import { RoomsServicesModule } from './rooms-services.module';
     RoomsServicesModule
   ]
 })
-export class RoomsModule { }
+export class RoomsModule {
+}

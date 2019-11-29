@@ -1,0 +1,19 @@
+<div *ngIf="isClient" class="item">
+    <ion-chip (click)="goToRoomModalPage()" color="medium">
+        <ion-icon name="wallet"></ion-icon>
+        <ion-label>Арендовать</ion-label>
+    </ion-chip>
+</div>
+
+<div *ngIf="isManager" class="item">
+    <ion-chip (click)="goToManageRoom()" color="medium">
+        <ion-icon name="settings"></ion-icon>
+        <ion-label>Управление</ion-label>
+    </ion-chip>
+</div>
+
+<div *ngIf="isNotAuthorized" class="item">
+    <ion-label style="color:grey; font-size: 11px">
+        Для аренды необходимо авторизоваться
+    </ion-label>
+</div>
