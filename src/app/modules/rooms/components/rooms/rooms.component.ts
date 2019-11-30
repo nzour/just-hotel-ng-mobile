@@ -9,7 +9,7 @@ import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interf
 import { RoomOutput } from '../../../shared/types/room';
 import { Observable } from 'rxjs';
 import { LoaderService } from '../../../shared/services/loader.service';
-import { delay } from 'rxjs/operators';
+import { RoomComponent } from '../room/room.component';
 
 @Component({
   selector: 'app-rooms',
@@ -76,7 +76,7 @@ export class RoomsComponent implements OnInit {
   async openRoomPage(room: RoomOutput): Promise<void> {
     const modal = await this.modals
       .create({
-        component: RoomsComponent,
+        component: RoomComponent,
         componentProps: { room }
       });
 
@@ -89,15 +89,10 @@ export class RoomsComponent implements OnInit {
   }
 
   private fetchRooms(): void {
-    this.loader.increase();
-
     this.roomService.getAllRooms(this._pagination, this._filter)
-      .pipe(delay(5000))
       .subscribe(({ total, data }) => {
         this._total = total;
         this._rooms = data;
       });
-
-    setTimeout(() => this.loader.decrease(), 5000);
   }
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { RoomOutput } from '../../../shared/types/room';
 import { NotifierService } from '../../../shared/services/notifier.service';
@@ -11,16 +11,20 @@ import { IonRefresher, ModalController } from '@ionic/angular';
 })
 export class RoomComponent {
 
+  private _room?: RoomOutput;
+
   constructor(
     private roomService: RoomService,
     private modals: ModalController,
     private notifier: NotifierService
   ) { }
 
-  private _room?: RoomOutput;
-
   get room(): RoomOutput | undefined {
     return this._room;
+  }
+
+  @Input() set room(value: RoomOutput | undefined) {
+    this._room = value;
   }
 
   async refresh(refresher: IonRefresher): Promise<void> {
@@ -28,10 +32,14 @@ export class RoomComponent {
     await this.fetchRoom();
   }
 
+  async close(): Promise<void> {
+    await this.modals.dismiss();
+  }
+
   private async fetchRoom(): Promise<void> {
     if (!this._room) {
       await this.notifier.dispatchError('Возникла критическая ошибка!');
-      await this.modals.dismiss();
+      await this.close();
       return;
     }
 

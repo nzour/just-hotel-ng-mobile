@@ -1,17 +1,17 @@
 <ion-header>
     <ion-toolbar>
-        <ion-button color="light" slot="end">
-            <ion-icon name="exit"></ion-icon>
+        <ion-button (click)="close()" color="light" slot="end">
+            <ion-icon name="close"></ion-icon>
         </ion-button>
     </ion-toolbar>
 
-    <ion-title class="ion-text-center">
+    <ion-title class="ion-text-center ion-margin-bottom">
         Гостиница <b>Зобор</b>
     </ion-title>
 </ion-header>
 
-<ion-content>
-    <ion-refresher #refresher (ionRefresh)="refresh(refresher)"></ion-refresher>
+<ion-content class="ion-padding-top">
+    <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
     <ng-template [ngIfElse]="roomSkeleton" [ngIf]="room">
         <ion-item class="ion-margin-horizontal" lines="none">
