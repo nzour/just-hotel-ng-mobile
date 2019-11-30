@@ -39,7 +39,7 @@ export class RoomActionButtonsComponent {
   }
 
   async goToRoomModalPage(): Promise<void> {
-    await this.router.navigate([ /* todo: Navigate to the RentRoomComponent */]);
+    await this.router.navigate([this._roomId, 'rent']);
   }
 
   async goToManageRoom(): Promise<void> {

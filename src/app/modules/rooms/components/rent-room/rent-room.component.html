@@ -1,0 +1,18 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-button color="light" slot="start">
+            <ion-icon name="arrow-back"></ion-icon>
+        </ion-button>
+    </ion-toolbar>
+
+    <ion-title class="ion-text-center">
+        Гостиница <b>Зобор</b>
+    </ion-title>
+</ion-header>
+
+
+<ion-content>
+    <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
+
+
+</ion-content>

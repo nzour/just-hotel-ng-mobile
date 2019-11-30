@@ -7,13 +7,17 @@ import { RoomsFilterComponent } from './components/rooms-filter/rooms-filter.com
 import { RoomComponent } from './components/room/room.component';
 import { RoomsServicesModule } from './rooms-services.module';
 import { RoomActionButtonsComponent } from './components/room-action-buttons/room-action-buttons.component';
+import { ManageRoomComponent } from './components/manage-room/manage-room.component';
+import { RentRoomComponent } from './components/rent-room/rent-room.component';
 
 @NgModule({
   declarations: [
     RoomComponent,
     RoomsComponent,
     RoomsFilterComponent,
-    RoomActionButtonsComponent
+    RoomActionButtonsComponent,
+    ManageRoomComponent,
+    RentRoomComponent
   ],
   entryComponents: [
     RoomComponent,
