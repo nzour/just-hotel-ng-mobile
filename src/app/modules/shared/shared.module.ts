@@ -9,12 +9,14 @@ import { ApiInterceptor } from './interceptors/api.interceptor';
 import { CountablePipe } from './pipes/countable.pipe';
 import { RolePipe } from './pipes/role.pipe';
 import { RoomTypePipe } from './pipes/room-type.pipe';
+import { FooterButtonsComponent } from './footer-buttons/footer-buttons.component';
 
 @NgModule({
   declarations: [
     RolePipe,
     CountablePipe,
-    RoomTypePipe
+    RoomTypePipe,
+    FooterButtonsComponent
   ],
   imports: [
     IonicModule,
@@ -36,6 +38,7 @@ import { RoomTypePipe } from './pipes/room-type.pipe';
     CountablePipe,
     RolePipe,
     RoomTypePipe,
+    FooterButtonsComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }

@@ -26,17 +26,7 @@
     </ion-toolbar>
 </ion-content>
 
-<ion-footer class="ion-margin-bottom" no-border>
-    <ion-button (click)="applyFilterAndClose()"
-                class="ion-margin-bottom"
-                color="tertiary"
-                expand="block">
-        Применить
-    </ion-button>
-
-    <ion-button (click)="close()"
-                color="light"
-                expand="block">
-        Отменить
-    </ion-button>
-</ion-footer>
+<app-footer-buttons (cancelButtonClick)="close()"
+                    (confirmButtonClick)="applyFilterAndClose()"
+                    confirmButtonName="Применить">
+</app-footer-buttons>

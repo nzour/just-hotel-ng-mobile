@@ -42,7 +42,7 @@
     </form>
 </ion-content>
 
-<ion-footer class="ion-margin-vertical ion-padding-horizontal" no-border>
-    <ion-button (click)="createRoom()" class="ion-margin-bottom" expand="block">Создать</ion-button>
-    <ion-button (click)="back()" color="light" expand="block">Назад</ion-button>
-</ion-footer>
+<app-footer-buttons (cancelButtonClick)="back()"
+                    (confirmButtonClick)="createRoom()"
+                    confirmButtonName="Создать">
+</app-footer-buttons>

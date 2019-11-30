@@ -1,0 +1,13 @@
+<ion-footer class="ion-margin-vertical ion-padding-horizontal" no-border>
+    <ion-button (click)="emitConfirmButton()"
+                [color]="confirmButtonColor"
+                class="ion-margin-bottom"
+                expand="block">
+        {{ confirmButtonName }}
+    </ion-button>
+    <ion-button (click)="emitCancelButton()"
+                [color]="cancelButtonColor"
+                expand="block">
+        {{ cancelButtonName }}
+    </ion-button>
+</ion-footer>

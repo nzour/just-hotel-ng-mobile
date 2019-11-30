@@ -38,7 +38,7 @@
     </form>
 </ion-content>
 
-<ion-footer class="ion-margin-vertical ion-padding-horizontal" no-border>
-    <ion-button (click)="updateNames()" class="ion-margin-bottom" expand="block">Сохранить</ion-button>
-    <ion-button (click)="close()" color="light" expand="block">Отмена</ion-button>
-</ion-footer>
+<app-footer-buttons (cancelButtonClick)="close()"
+                    (confirmButtonClick)="updateNames()"
+                    confirmButtonName="Сохранить">
+</app-footer-buttons>
