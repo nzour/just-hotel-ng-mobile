@@ -5,6 +5,7 @@ import { TokenService } from '../../../shared/services/token.service';
 import { Router } from '@angular/router';
 import { UpdateNamesComponent } from '../update-names/update-names.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,13 @@ export class ProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.fetchProfileData();
+    this.profileService
+      .getProfile()
+      .pipe(
+        // Слишком быстро отправляется запрос, токен не успевает сохраниться в локал стораге при авторизации.
+        delay(500)
+      )
+      .subscribe(output => this._profile = output);
   }
 
   get profile(): ProfileOutput | undefined {
