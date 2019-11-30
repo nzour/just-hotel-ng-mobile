@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RoomFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
-import { TokenInfo } from '../../../shared/types/manual';
 import { Pagination } from '../../../shared/types/pagination';
 import { IonRefresher, ModalController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
@@ -19,8 +18,10 @@ import { RoomComponent } from '../room/room.component';
 export class RoomsComponent implements OnInit {
 
   private _rooms = Array<RoomOutput>();
-  private _loggedUser?: TokenInfo;
   private _pagination: Pagination = { limit: 5 };
+  private _filter: RoomFilter = {};
+  private _total = 0;
+
   constructor(
     private roomService: RoomService,
     private tokenService: TokenService,
@@ -28,9 +29,10 @@ export class RoomsComponent implements OnInit {
     private loader: LoaderService
   ) { }
 
-  private _filter: RoomFilter = {};
-
-  private _total = 0;
+  get isManager(): boolean {
+    const tokenInfo = this.tokenService.tryGetTokenInfo;
+    return !!tokenInfo && 'Manager' === tokenInfo.role;
+  }
 
   get rooms(): RoomOutput[] {
     return this._rooms;
@@ -50,7 +52,6 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit() {
     this.fetchRooms();
-    this._loggedUser = this.tokenService.tryGetTokenInfo;
   }
 
   async openFilters(): Promise<void> {

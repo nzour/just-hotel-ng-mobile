@@ -10,6 +10,10 @@
                   color="tertiary">
             Открыть фильтры
         </ion-chip>
+
+        <ion-chip *ngIf="isManager" [routerLink]="['create']" color="primary">
+            Создать комнату
+        </ion-chip>
     </ion-toolbar>
 </ion-header>
 

@@ -19,12 +19,21 @@ export class RoomService {
     return this.http
       .get<PaginatedData<RoomOutput>>(`rooms${urlParams(pagination, filter)}`);
   }
+
+  createRoom(input: RoomInput): Observable<void> {
+    return this.http.post<void>('rooms', input);
+  }
 }
 
 // region types
 
 export interface RoomFilter {
   roomTypes?: RoomType[];
+}
+
+export interface RoomInput {
+  roomType: RoomType;
+  cost: number;
 }
 
 // endregion

@@ -1,0 +1,48 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">
+            Создание комнаты
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top">
+    <form [formGroup]="roomForm">
+        <ion-item lines="none">
+            <ion-title class="ion-text-center">
+                Тип комнаты по кол-ву комнат
+            </ion-title>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-select formControlName="roomType" interface="popover">
+                <ion-select-option value="Single">
+                    Однокомнатная
+                </ion-select-option>
+
+                <ion-select-option value="Double">
+                    Двухкомнатная
+                </ion-select-option>
+
+                <ion-select-option value="Triple">
+                    Трехкомнатная
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-top" lines="none">
+            <ion-title class="ion-text-center">
+                Укажите стоимость комнаты
+            </ion-title>
+        </ion-item>
+
+        <ion-item class="ion-text-center" lines="none">
+            <ion-input formControlName="cost" type="number"></ion-input>
+        </ion-item>
+    </form>
+</ion-content>
+
+<ion-footer class="ion-margin-vertical ion-padding-horizontal" no-border>
+    <ion-button (click)="createRoom()" class="ion-margin-bottom" expand="block">Создать</ion-button>
+    <ion-button (click)="back()" color="light" expand="block">Назад</ion-button>
+</ion-footer>

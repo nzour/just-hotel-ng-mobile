@@ -9,6 +9,7 @@ import { RoomsServicesModule } from './rooms-services.module';
 import { RoomActionButtonsComponent } from './components/room-action-buttons/room-action-buttons.component';
 import { ManageRoomComponent } from './components/manage-room/manage-room.component';
 import { RentRoomComponent } from './components/rent-room/rent-room.component';
+import { CreateRoomComponent } from './components/create-room/create-room.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { RentRoomComponent } from './components/rent-room/rent-room.component';
     RoomsFilterComponent,
     RoomActionButtonsComponent,
     ManageRoomComponent,
-    RentRoomComponent
+    RentRoomComponent,
+    CreateRoomComponent
   ],
   entryComponents: [
     RoomComponent,
