@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RoomFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { Pagination } from '../../../shared/types/pagination';
@@ -8,13 +8,14 @@ import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interf
 import { RoomOutput } from '../../../shared/types/room';
 import { RoomComponent } from '../room/room.component';
 import { finalize, tap } from 'rxjs/operators';
+import { IonWillEnter, IonWillLeave } from '../../../shared/types/ionic-hooks';
 
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['../room-shared-styles.scss'],
 })
-export class RoomsComponent implements OnInit {
+export class RoomsComponent implements IonWillEnter, IonWillLeave {
 
   private _rooms = Array<RoomOutput>();
   private _pagination: Pagination = { limit: 5 };
@@ -28,8 +29,14 @@ export class RoomsComponent implements OnInit {
     private modals: ModalController
   ) { }
 
-  ngOnInit() {
+  ionViewWillEnter(): void {
     this.fetchRooms();
+  }
+
+  ionViewWillLeave(): void {
+    this._rooms = [];
+    this._total = 0;
+    this._loading = false;
   }
 
   get isManager(): boolean {

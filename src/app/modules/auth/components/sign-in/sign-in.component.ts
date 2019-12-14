@@ -1,16 +1,17 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { IonDidLeave } from '../../../shared/types/ionic-hooks';
 
 @Component({
   selector: 'app-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['../auth.component.scss'],
 })
-export class SignInComponent implements OnDestroy {
+export class SignInComponent implements IonDidLeave {
 
   private _loginForm = new FormGroup({
     login: new FormControl('', [Validators.required]),
@@ -23,7 +24,7 @@ export class SignInComponent implements OnDestroy {
     private tokenService: TokenService
   ) { }
 
-  ngOnDestroy(): void {
+  ionViewDidLeave(): void {
     this._loginForm.reset();
   }
 
@@ -43,7 +44,7 @@ export class SignInComponent implements OnDestroy {
           await this.router.navigate(['/profile']);
         })
       )
-      .subscribe(this.ngOnDestroy);
+      .subscribe();
   }
 
   hasFormError(controlName: string): boolean {

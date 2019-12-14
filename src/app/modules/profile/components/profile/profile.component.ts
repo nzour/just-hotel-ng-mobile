@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProfileOutput, ProfileService } from '../../services/profile.service';
 import { AlertController, IonRefresher, ModalController } from '@ionic/angular';
 import { TokenService } from '../../../shared/services/token.service';
@@ -6,13 +6,14 @@ import { Router } from '@angular/router';
 import { UpdateNamesComponent } from '../update-names/update-names.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
 import { delay } from 'rxjs/operators';
+import { IonDidLeave, IonWillEnter } from '../../../shared/types/ionic-hooks';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements IonWillEnter, IonDidLeave {
 
   private _profile?: ProfileOutput;
 
@@ -24,7 +25,7 @@ export class ProfileComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
+  ionViewWillEnter(): void {
     this.profileService
       .getProfile()
       .pipe(
@@ -32,6 +33,10 @@ export class ProfileComponent implements OnInit {
         delay(500)
       )
       .subscribe(output => this._profile = output);
+  }
+
+  ionViewDidLeave(): void {
+    this._profile = undefined;
   }
 
   get profile(): ProfileOutput | undefined {
