@@ -1,3 +1,9 @@
-<p>
-    links-popover works!
-</p>
+<ion-list style="top: 0">
+    <ion-item (click)="onClicked(link)"
+              *ngFor="let link of links"
+              lines="none">
+        <ion-label [color]="link.color || 'tertiary'">
+            {{ link.text }}
+        </ion-label>
+    </ion-item>
+</ion-list>

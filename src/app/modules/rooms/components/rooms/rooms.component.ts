@@ -2,13 +2,14 @@ import { Component } from '@angular/core';
 import { RoomFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { Pagination } from '../../../shared/types/pagination';
-import { IonRefresher, ModalController } from '@ionic/angular';
+import { IonRefresher, ModalController, PopoverController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
 import { RoomOutput } from '../../../shared/types/room';
 import { RoomComponent } from '../room/room.component';
 import { finalize, tap } from 'rxjs/operators';
 import { IonWillEnter, IonWillLeave } from '../../../shared/types/ionic-hooks';
+import { Links, LinksPopoverComponent } from '../links-popover/links-popover.component';
 
 @Component({
   selector: 'app-rooms',
@@ -26,7 +27,8 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
   constructor(
     private roomService: RoomService,
     private tokenService: TokenService,
-    private modals: ModalController
+    private modals: ModalController,
+    private popovers: PopoverController
   ) { }
 
   ionViewWillEnter(): void {
@@ -88,6 +90,27 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
       });
 
     await modal.present();
+  }
+
+  async openCreatePopover(): Promise<void> {
+    const links: Links = [
+      {
+        text: 'Создать номер',
+        color: 'primary',
+        navigateTo: ['rooms', 'create']
+      },
+      {
+        text: 'Создать услугу',
+        click: () => { console.log('Пока не реализовано'); }
+      }
+    ];
+
+    const popover = await this.popovers.create({
+      component: LinksPopoverComponent,
+      componentProps: { links }
+    });
+
+    await popover.present();
   }
 
   async refreshRooms(refresher: IonRefresher): Promise<void> {

@@ -11,8 +11,8 @@
             Открыть фильтры
         </ion-chip>
 
-        <ion-chip *ngIf="isManager" [routerLink]="['create']" color="primary">
-            Создать комнату
+        <ion-chip *ngIf="isManager" (click)="openCreatePopover()" color="primary">
+            Создать
         </ion-chip>
     </ion-toolbar>
 </ion-header>

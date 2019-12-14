@@ -25,7 +25,8 @@ import { LinksPopoverComponent } from './components/links-popover/links-popover.
   ],
   entryComponents: [
     RoomComponent,
-    RoomsFilterComponent
+    RoomsFilterComponent,
+    LinksPopoverComponent
   ],
   imports: [
     CommonModule,
