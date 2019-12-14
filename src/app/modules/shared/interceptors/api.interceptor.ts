@@ -61,7 +61,7 @@ export class ApiInterceptor implements HttpInterceptor {
       return;
     }
 
-    this.notifier.dispatchError(`Type: ${response.error.type}. Message: ${response.error.message}`);
+    this.notifier.dispatchError(`[${response.error.type}] \n${response.error.message}`);
   }
 
   private isErrorReadable(error: any, response: HttpErrorResponse): error is ErrorResponse {
