@@ -20,7 +20,7 @@
 <ion-content>
     <ion-refresher #refresher (ionRefresh)="refreshRooms(refresher)" slot="fixed"></ion-refresher>
 
-    <ng-template [ngIf]="total && !(isLoading | async)">
+    <ng-template [ngIf]="total && !isLoading">
         <ion-card *ngFor="let room of rooms">
             <ion-card-title>
                 <ion-img src="assets/img/kek.jpg"></ion-img>
@@ -49,7 +49,7 @@
         </ion-card>
     </ng-template>
 
-    <ng-template [ngIf]="isLoading | async">
+    <ng-template [ngIf]="isLoading">
         <ion-card *ngFor="let i of 2 | countable">
             <ion-card-title>
                 <ion-avatar style="--border-radius: 0; width: 100%; height: 160px;">
@@ -66,7 +66,7 @@
         </ion-card>
     </ng-template>
 
-    <ion-item *ngIf="!total && !(isLoading | async)" lines="none">
+    <ion-item *ngIf="!total && !isLoading" lines="none">
         <ion-title class="ion-margin-top ion-text-center">
             Ничего не найдено!
         </ion-title>

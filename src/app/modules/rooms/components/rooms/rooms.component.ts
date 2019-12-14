@@ -6,9 +6,8 @@ import { IonRefresher, ModalController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
 import { RoomOutput } from '../../../shared/types/room';
-import { Observable } from 'rxjs';
-import { LoaderService } from '../../../shared/services/loader.service';
 import { RoomComponent } from '../room/room.component';
+import { finalize, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-rooms',
@@ -21,13 +20,17 @@ export class RoomsComponent implements OnInit {
   private _pagination: Pagination = { limit: 5 };
   private _filter: RoomFilter = {};
   private _total = 0;
+  private _loading = false;
 
   constructor(
     private roomService: RoomService,
     private tokenService: TokenService,
-    private modals: ModalController,
-    private loader: LoaderService
+    private modals: ModalController
   ) { }
+
+  ngOnInit() {
+    this.fetchRooms();
+  }
 
   get isManager(): boolean {
     const tokenInfo = this.tokenService.tryGetTokenInfo;
@@ -46,12 +49,8 @@ export class RoomsComponent implements OnInit {
     return this._filter;
   }
 
-  get isLoading(): Observable<boolean> {
-    return this.loader.isLoading;
-  }
-
-  ngOnInit() {
-    this.fetchRooms();
+  get isLoading(): boolean {
+    return this._loading;
   }
 
   async openFilters(): Promise<void> {
@@ -91,6 +90,10 @@ export class RoomsComponent implements OnInit {
 
   private fetchRooms(): void {
     this.roomService.getAllRooms(this._pagination, this._filter)
+      .pipe(
+        tap(() => this._loading = true),
+        finalize(() => this._loading = false)
+      )
       .subscribe(({ total, data }) => {
         this._total = total;
         this._rooms = data;
