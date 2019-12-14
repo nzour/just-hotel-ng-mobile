@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">
+            Создание услуги
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top">
+    <form [formGroup]="serviceForm">
+        <ion-item lines="none" class="ion-text-center">
+            <ion-label>
+                Название услуги
+            </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-input formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item lines="none" class="ion-text-center">
+            <ion-label>
+                Стоимость услуги
+            </ion-label>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-input formControlName="cost" type="number"></ion-input>
+        </ion-item>
+    </form>
+</ion-content>
+
+<app-footer-buttons (cancelButtonClick)="back()"
+                    (confirmButtonClick)="createService()"
+                    confirmButtonName="Создать номер">
+</app-footer-buttons>

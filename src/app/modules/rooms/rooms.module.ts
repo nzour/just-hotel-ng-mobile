@@ -11,6 +11,7 @@ import { ManageRoomComponent } from './components/manage-room/manage-room.compon
 import { RentRoomComponent } from './components/rent-room/rent-room.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
 import { LinksPopoverComponent } from './components/links-popover/links-popover.component';
+import { CreateServiceComponent } from './components/create-service/create-service.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LinksPopoverComponent } from './components/links-popover/links-popover.
     ManageRoomComponent,
     RentRoomComponent,
     CreateRoomComponent,
+    CreateServiceComponent,
     LinksPopoverComponent
   ],
   entryComponents: [

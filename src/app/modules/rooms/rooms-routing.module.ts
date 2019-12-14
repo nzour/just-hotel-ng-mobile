@@ -7,6 +7,7 @@ import { RentRoomComponent } from './components/rent-room/rent-room.component';
 import { RoomResolver } from './resolvers/room.resolver';
 import { RoomReservationResolver } from './resolvers/room-reservation.resolver';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { CreateServiceComponent } from './components/create-service/create-service.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,11 @@ const routes: Routes = [
     resolve: {
       room: RoomResolver
     }
+  },
+  {
+    path: 'services/create',
+    component: CreateServiceComponent,
+    canActivate: [OnlyManagerGuard]
   }
 ];
 

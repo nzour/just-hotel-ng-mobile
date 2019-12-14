@@ -101,7 +101,7 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
       },
       {
         text: 'Создать услугу',
-        click: () => { console.log('Пока не реализовано'); }
+        navigateTo: ['rooms', 'services', 'create']
       }
     ];
 
