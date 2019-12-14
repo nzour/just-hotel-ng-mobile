@@ -23,6 +23,10 @@ export class RoomService {
   createRoom(input: RoomInput): Observable<void> {
     return this.http.post<void>('rooms', input);
   }
+
+  updateRoom(input: RoomInput & { id: Guid }): Observable<void> {
+    return this.http.put<void>(`rooms/${input.id}`, input);
+  }
 }
 
 // region types

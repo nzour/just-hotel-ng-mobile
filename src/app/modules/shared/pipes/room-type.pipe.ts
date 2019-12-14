@@ -9,13 +9,13 @@ export class RoomTypePipe implements PipeTransform {
   transform(roomType: RoomType): string {
     switch (roomType) {
       case 'Single':
-        return 'Однокомнатная';
+        return 'Однокомнатный';
 
       case 'Double':
-        return 'Двухкомнатная';
+        return 'Двухкомнатный';
 
       case 'Triple':
-        return 'Трехкомнатная';
+        return 'Трехкомнатный';
     }
   }
 

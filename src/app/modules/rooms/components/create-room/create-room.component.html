@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-title class="ion-text-center">
-            Создание комнаты
+            Создание номера
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -10,29 +10,32 @@
     <form [formGroup]="roomForm">
         <ion-item lines="none">
             <ion-title class="ion-text-center">
-                Тип комнаты по кол-ву комнат
+                Тип номера по кол-ву комнат
             </ion-title>
         </ion-item>
 
-        <ion-item lines="none">
-            <ion-select formControlName="roomType" interface="popover">
+        <ion-item lines="none" class="ion-text-center">
+            <ion-select cancel-text="Отмена"
+                        formControlName="roomType"
+                        interface="action-sheet"
+                        style="max-width: 100% !important;">
                 <ion-select-option value="Single">
-                    Однокомнатная
+                    Однокомнатный
                 </ion-select-option>
 
                 <ion-select-option value="Double">
-                    Двухкомнатная
+                    Двухкомнатный
                 </ion-select-option>
 
                 <ion-select-option value="Triple">
-                    Трехкомнатная
+                    Трехкомнатный
                 </ion-select-option>
             </ion-select>
         </ion-item>
 
         <ion-item class="ion-margin-top" lines="none">
             <ion-title class="ion-text-center">
-                Укажите стоимость комнаты
+                Укажите стоимость номера
             </ion-title>
         </ion-item>
 
@@ -44,5 +47,5 @@
 
 <app-footer-buttons (cancelButtonClick)="back()"
                     (confirmButtonClick)="createRoom()"
-                    confirmButtonName="Создать">
+                    confirmButtonName="Создать номер">
 </app-footer-buttons>

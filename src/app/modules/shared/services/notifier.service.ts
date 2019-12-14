@@ -29,7 +29,8 @@ export class NotifierService {
         message: message,
         color: color,
         duration: duration,
-        showCloseButton: true
+        showCloseButton: true,
+        closeButtonText: 'Закрыть'
       });
 
     await toast.present();

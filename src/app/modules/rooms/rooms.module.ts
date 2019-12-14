@@ -10,6 +10,7 @@ import { RoomActionButtonsComponent } from './components/room-action-buttons/roo
 import { ManageRoomComponent } from './components/manage-room/manage-room.component';
 import { RentRoomComponent } from './components/rent-room/rent-room.component';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
+import { LinksPopoverComponent } from './components/links-popover/links-popover.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { CreateRoomComponent } from './components/create-room/create-room.compon
     RoomActionButtonsComponent,
     ManageRoomComponent,
     RentRoomComponent,
-    CreateRoomComponent
+    CreateRoomComponent,
+    LinksPopoverComponent
   ],
   entryComponents: [
     RoomComponent,

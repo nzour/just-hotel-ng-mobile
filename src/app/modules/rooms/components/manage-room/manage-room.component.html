@@ -1,3 +1,53 @@
-<p>
-    manage-room works!
-</p>
+<ion-header>
+    <ion-toolbar>
+        <ion-title class="ion-text-center">
+            Управление номером
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-top">
+    <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
+
+    <form *ngIf="roomForm" [formGroup]="roomForm">
+        <ion-item lines="none">
+            <ion-title class="ion-text-center">
+                Тип номера по кол-ву комнат
+            </ion-title>
+        </ion-item>
+
+        <ion-item lines="none">
+            <ion-select cancel-text="Отмена"
+                        formControlName="roomType"
+                        interface="action-sheet"
+                        style="max-width: 100% !important; text-align: center !important;">
+                <ion-select-option value="Single">
+                    Однокомнатный
+                </ion-select-option>
+
+                <ion-select-option value="Double">
+                    Двухкомнатный
+                </ion-select-option>
+
+                <ion-select-option value="Triple">
+                    Трехкомнатный
+                </ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <ion-item class="ion-margin-top" lines="none">
+            <ion-title class="ion-text-center">
+                Стоимость номера
+            </ion-title>
+        </ion-item>
+
+        <ion-item class="ion-text-center" lines="none">
+            <ion-input formControlName="cost" type="number"></ion-input>
+        </ion-item>
+    </form>
+</ion-content>
+
+<app-footer-buttons (cancelButtonClick)="back()"
+                    (confirmButtonClick)="updateRoom()"
+                    confirmButtonName="Обновить номер">
+</app-footer-buttons>

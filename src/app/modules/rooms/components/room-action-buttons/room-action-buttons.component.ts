@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { TokenService } from '../../../shared/services/token.service';
 import { Guid } from '../../../shared/types/manual';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-room-action-buttons',
@@ -10,7 +11,11 @@ import { Guid } from '../../../shared/types/manual';
 })
 export class RoomActionButtonsComponent {
 
-  constructor(private router: Router, private tokenService: TokenService) { }
+  constructor(
+    private router: Router,
+    private modals: ModalController,
+    private tokenService: TokenService
+  ) { }
 
   private _roomId?: Guid;
 
@@ -40,9 +45,21 @@ export class RoomActionButtonsComponent {
 
   async goToRoomModalPage(): Promise<void> {
     await this.router.navigate([this._roomId, 'rent']);
+    await this.dismissModalIfExists();
   }
 
   async goToManageRoom(): Promise<void> {
-    await this.router.navigate([ /* todo: Navigate to the ManageRoomComponent */]);
+    await this.router.navigate([this._roomId, 'manage']);
+    await this.dismissModalIfExists();
+  }
+
+  private async dismissModalIfExists(): Promise<void> {
+    const modal = await this.modals.getTop();
+
+    if (!modal) {
+      return;
+    }
+
+    await this.modals.dismiss();
   }
 }
