@@ -37,6 +37,7 @@ export class ApiInterceptor implements HttpInterceptor {
         this.handleIfUnauthorized(response);
         this.handleIfForbidden(response);
         this.handleIfBadRequest(response);
+        this.handleIfServerError(response);
 
         return throwError(response);
       })
@@ -64,6 +65,14 @@ export class ApiInterceptor implements HttpInterceptor {
     this.notifier.dispatchError(`[${response.error.type}] \n${response.error.message}`);
   }
 
+  private handleIfServerError(response: HttpErrorResponse): void {
+    if (response.status != 0 && response.status < ResponseCode.SERVER_ERROR) {
+      return;
+    }
+
+    this.notifier.dispatchError('Ошибка сервера!');
+  }
+
   private isErrorReadable(error: any, response: HttpErrorResponse): error is ErrorResponse {
     return ResponseCode.BAD_REQUEST === response.status;
   }
@@ -75,7 +84,8 @@ interface ErrorResponse {
 }
 
 class ResponseCode {
-  static readonly UNAUTHORIZED: number = 401;
-  static readonly FORBIDDEN: number = 403;
-  static readonly BAD_REQUEST: number = 400;
+  static readonly UNAUTHORIZED = 401;
+  static readonly FORBIDDEN = 403;
+  static readonly BAD_REQUEST = 400;
+  static readonly SERVER_ERROR = 500;
 }
