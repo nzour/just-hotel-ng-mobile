@@ -14,6 +14,14 @@
 <ion-content>
     <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
-    <li-ionic4-datepicker [inputDateConfig]="{  }" [draggable]="true"></li-ionic4-datepicker>
+    <form [formGroup]="form">
+        <ion-item lines="none">
+            <ion-input formControlName="rentDate"
+                       [liIonic4Datepicker]="datePickerConfig"
+                       placeholder="Дата бронирования"
+                       readonly>
+            </ion-input>
+        </ion-item>
+    </form>
 
 </ion-content>

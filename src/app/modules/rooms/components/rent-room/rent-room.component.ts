@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { RoomReservationResolvedData } from '../../resolvers/room-reservation.resolver';
 import { ReservationOutput, ReservationService } from '../../services/reservation.service';
 import { IonRefresher } from '@ionic/angular';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-rent-room',
@@ -15,24 +16,26 @@ import { IonRefresher } from '@ionic/angular';
 })
 export class RentRoomComponent implements OnInit {
 
+  private _room!: RoomOutput;
+  private _reservations = Array<ReservationOutput>();
+  private _datePickerConfig: object = {};
+
   constructor(
     private route: ActivatedRoute,
     private roomService: RoomService,
     private reservationService: ReservationService
   ) { }
 
-  days: number[] = [1576645470, 1576645471];
-
-  private _room!: RoomOutput;
-
   get room(): RoomOutput {
     return this._room;
   }
 
-  private _reservations = Array<ReservationOutput>();
-
   get reservations(): ReservationOutput[] {
     return this._reservations;
+  }
+
+  get datePickerConfig(): object {
+    return this._datePickerConfig;
   }
 
   ngOnInit(): void {
@@ -40,8 +43,13 @@ export class RentRoomComponent implements OnInit {
       .subscribe(data => {
         this._room = data.room;
         this._reservations = data.reservations;
+        this._datePickerConfig = this.createConfig(data.reservations);
       });
   }
+
+  form = new FormGroup({
+    rentDate: new FormControl(null, [Validators.required])
+  });
 
   async refresh(refresher: IonRefresher): Promise<void> {
     await refresher.complete();
@@ -59,5 +67,19 @@ export class RentRoomComponent implements OnInit {
     this.reservationService
       .getAllReservations({ roomId: this._room.id })
       .subscribe(output => this._reservations = output);
+  }
+
+  private createConfig(reservations: ReservationOutput[]): object {
+    return {
+      mondayFirst: true,
+      setLabel: 'Выбрать',
+      todayLabel: 'Сегодня',
+      closeLabel: 'Отмена',
+      titleLabel: 'Дата бронирования',
+      clearButton: false,
+      disabledDates: [...reservations.map(r => r.reservedFrom), ...reservations.map(r => r.reservedTo)],
+      monthsList: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Окрябрь', 'Ноябрь', 'Декабрь'],
+      weeksList: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'],
+    };
   }
 }

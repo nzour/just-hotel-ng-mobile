@@ -13,6 +13,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { MainComponent } from './components/main.component';
 import { RoomsModule } from './modules/rooms/rooms.module';
+import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 
 const modules = [
   SharedModule,
@@ -29,6 +30,7 @@ const modules = [
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
+    Ionic4DatepickerModule,
     AppRoutingModule,
     ...modules
   ],
