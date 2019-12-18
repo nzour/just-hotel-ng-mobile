@@ -21,6 +21,8 @@ export class RentRoomComponent implements OnInit {
     private reservationService: ReservationService
   ) { }
 
+  days: number[] = [1576645470, 1576645471];
+
   private _room!: RoomOutput;
 
   get room(): RoomOutput {

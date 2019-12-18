@@ -10,6 +10,7 @@ import { CountablePipe } from './pipes/countable.pipe';
 import { RolePipe } from './pipes/role.pipe';
 import { RoomTypePipe } from './pipes/room-type.pipe';
 import { FooterButtonsComponent } from './footer-buttons/footer-buttons.component';
+import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { FooterButtonsComponent } from './footer-buttons/footer-buttons.componen
   ],
   imports: [
     IonicModule,
+    Ionic4DatepickerModule,
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
@@ -29,6 +31,7 @@ import { FooterButtonsComponent } from './footer-buttons/footer-buttons.componen
   ],
   exports: [
     IonicModule,
+    Ionic4DatepickerModule,
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
