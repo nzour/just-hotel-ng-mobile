@@ -14,13 +14,34 @@
 <ion-content>
     <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
-    <form [formGroup]="form">
+    <ion-toolbar>
+        <ion-label slot="start">
+            {{ room.roomType | translateRoomType }}
+        </ion-label>
+        <ion-label slot="end">
+            {{ room.cost }} руб/сутки
+        </ion-label>
+    </ion-toolbar>
+
+    <form [formGroup]="reservationForm">
+        <ion-item>
+
+        </ion-item>
+
         <ion-item lines="none">
             <ion-input formControlName="rentDate"
                        [liIonic4Datepicker]="datePickerConfig"
                        placeholder="Дата бронирования"
                        readonly>
             </ion-input>
+        </ion-item>
+
+        <ion-item>
+            <ion-calendar formControlName="rentDate"
+                          [options]="datePickerOptions"
+                          type="moment"
+                          format="DD MM YYYY">
+            </ion-calendar>
         </ion-item>
     </form>
 

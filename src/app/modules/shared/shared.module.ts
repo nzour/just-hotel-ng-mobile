@@ -11,6 +11,7 @@ import { RolePipe } from './pipes/role.pipe';
 import { RoomTypePipe } from './pipes/room-type.pipe';
 import { FooterButtonsComponent } from './footer-buttons/footer-buttons.component';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
+import { CalendarModule } from 'ion2-calendar';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
   exports: [
     IonicModule,
     Ionic4DatepickerModule,
+    CalendarModule,
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,

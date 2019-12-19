@@ -8,6 +8,7 @@ import { RoomReservationResolvedData } from '../../resolvers/room-reservation.re
 import { ReservationOutput, ReservationService } from '../../services/reservation.service';
 import { IonRefresher } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { CalendarComponentOptions } from 'ion2-calendar';
 
 @Component({
   selector: 'app-rent-room',
@@ -19,6 +20,10 @@ export class RentRoomComponent implements OnInit {
   private _room!: RoomOutput;
   private _reservations = Array<ReservationOutput>();
   private _datePickerConfig: object = {};
+
+  private _reservationForm = new FormGroup({
+    rentDate: new FormControl(null, [Validators.required])
+  });
 
   constructor(
     private route: ActivatedRoute,
@@ -38,6 +43,16 @@ export class RentRoomComponent implements OnInit {
     return this._datePickerConfig;
   }
 
+  get datePickerOptions(): CalendarComponentOptions {
+    return {
+      pickMode: 'range'
+    };
+  }
+
+  get reservationForm(): FormGroup {
+    return this._reservationForm;
+  }
+
   ngOnInit(): void {
     (this.route.data as Observable<RoomResolvedData & RoomReservationResolvedData>)
       .subscribe(data => {
@@ -46,10 +61,6 @@ export class RentRoomComponent implements OnInit {
         this._datePickerConfig = this.createConfig(data.reservations);
       });
   }
-
-  form = new FormGroup({
-    rentDate: new FormControl(null, [Validators.required])
-  });
 
   async refresh(refresher: IonRefresher): Promise<void> {
     await refresher.complete();
