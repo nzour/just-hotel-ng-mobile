@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar>
-        <ion-button color="light" slot="start">
+        <ion-button (click)="back()" color="light" slot="start">
             <ion-icon name="arrow-back"></ion-icon>
         </ion-button>
     </ion-toolbar>
@@ -15,34 +15,42 @@
     <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
     <ion-toolbar>
-        <ion-label slot="start">
+        <ion-label slot="start" class="ion-padding-start">
             {{ room.roomType | translateRoomType }}
         </ion-label>
-        <ion-label slot="end">
+        <ion-label slot="end" class="ion-padding-end">
             {{ room.cost }} руб/сутки
         </ion-label>
     </ion-toolbar>
 
-    <form [formGroup]="reservationForm">
+    <form [formGroup]="reservationForm" class="ion-padding-top">
         <ion-item>
-
-        </ion-item>
-
-        <ion-item lines="none">
-            <ion-input formControlName="rentDate"
-                       [liIonic4Datepicker]="datePickerConfig"
-                       placeholder="Дата бронирования"
-                       readonly>
-            </ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-calendar formControlName="rentDate"
+            <ion-calendar formControlName="rentDates"
                           [options]="datePickerOptions"
                           type="moment"
                           format="DD MM YYYY">
             </ion-calendar>
         </ion-item>
+
+        <ion-item class="ion-text-center">
+            <ion-select *ngIf="services.length"
+                        formControlName="services"
+                        multiple
+                        placeholder="Дополнительные услуги">
+                <ion-select-option *ngFor="let service of services" [value]="service.id" multiple>
+                    {{ service.name }}: {{ service.cost }} руб
+                </ion-select-option>
+            </ion-select>
+
+            <ion-label *ngIf="!services.length">
+                Нет дополнительных услуг
+            </ion-label>
+        </ion-item>
     </form>
 
 </ion-content>
+
+<app-footer-buttons (cancelButtonClick)="back()"
+                    (confirmButtonClick)="openConfirmWindow()"
+                    confirmButtonName="Забронировать">
+</app-footer-buttons>

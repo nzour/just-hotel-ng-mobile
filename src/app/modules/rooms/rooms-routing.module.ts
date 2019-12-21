@@ -9,6 +9,7 @@ import { RoomReservationResolver } from './resolvers/room-reservation.resolver';
 import { CreateRoomComponent } from './components/create-room/create-room.component';
 import { CreateServiceComponent } from './components/create-service/create-service.component';
 import { OnlyClientGuard } from './guards/only-client.guard';
+import { ServicesResolver } from './resolvers/services.resolver';
 
 const routes: Routes = [
   {
@@ -26,7 +27,8 @@ const routes: Routes = [
     canActivate: [OnlyClientGuard],
     resolve: {
       room: RoomResolver,
-      reservations: RoomReservationResolver
+      reservations: RoomReservationResolver,
+      services: ServicesResolver
     }
   },
   {

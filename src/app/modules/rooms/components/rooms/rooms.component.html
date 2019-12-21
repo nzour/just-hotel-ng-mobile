@@ -22,11 +22,11 @@
 
     <ng-template [ngIf]="total && !isLoading">
         <ion-card *ngFor="let room of rooms">
-            <ion-card-title>
+            <ion-card-title (click)="openRoomPage(room)">
                 <ion-img src="assets/img/kek.jpg"></ion-img>
             </ion-card-title>
 
-            <ion-card-content>
+            <ion-card-content (click)="openRoomPage(room)">
                 <ion-toolbar>
                     <ion-label class="bold" slot="start">
                         {{ room.roomType | translateRoomType }}
@@ -36,14 +36,9 @@
                         {{ room.cost }} руб/сутки
                     </ion-label>
                 </ion-toolbar>
+            </ion-card-content>
 
-                <div class="item">
-                    <ion-chip (click)="openRoomPage(room)" color="tertiary">
-                        <ion-icon name="open"></ion-icon>
-                        <ion-label>Подробнее</ion-label>
-                    </ion-chip>
-                </div>
-
+            <ion-card-content>
                 <app-room-action-buttons [roomId]="room.id"></app-room-action-buttons>
             </ion-card-content>
         </ion-card>

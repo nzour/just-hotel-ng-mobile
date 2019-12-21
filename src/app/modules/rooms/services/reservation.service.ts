@@ -13,11 +13,22 @@ export class ReservationService {
   getAllReservations(filter?: ReservationFilter): Observable<ReservationOutput[]> {
     return this.http.get<ReservationOutput[]>(`reservations${urlParams(filter)}`);
   }
+
+  createReservation(input: ReservationInput): Observable<void> {
+    return this.http.post<void>('reservations', input);
+  }
 }
 
 export interface ReservationFilter {
   userId?: Guid,
   roomId?: Guid
+}
+
+export interface ReservationInput {
+  roomId: Guid,
+  reservedFrom: Timestamp,
+  reservedTo: Timestamp,
+  serviceIds: Guid[]
 }
 
 export interface ReservationOutput {

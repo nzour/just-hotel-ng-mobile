@@ -1,5 +1,5 @@
 export const environment = {
-  apiUrl: 'http://localhost:5000',
+  apiUrl: 'http://142.93.119.123:80',
   production: false,
   enableRoutingTracing: false
 };
