@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { RoomFilter, RoomService } from '../../services/room.service';
 import { TokenService } from '../../../shared/services/token.service';
 import { Pagination } from '../../../shared/types/pagination';
-import { IonRefresher, ModalController, PopoverController } from '@ionic/angular';
+import { IonInfiniteScroll, IonRefresher, ModalController, PopoverController } from '@ionic/angular';
 import { RoomsFilterComponent } from '../rooms-filter/rooms-filter.component';
 import { OverlayEventDetail } from '@ionic/core/dist/types/utils/overlays-interface';
 import { RoomOutput } from '../../../shared/types/room';
@@ -18,8 +18,9 @@ import { Links, LinksPopoverComponent } from '../links-popover/links-popover.com
 })
 export class RoomsComponent implements IonWillEnter, IonWillLeave {
 
+  private readonly CHUNK_SIZE = 3;
   private _rooms = Array<RoomOutput>();
-  private _pagination: Pagination = { limit: 100 };
+  private _pagination: Pagination = { limit: this.CHUNK_SIZE };
   private _filter: RoomFilter = {};
   private _total = 0;
   private _loading = false;
@@ -32,13 +33,14 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
   ) { }
 
   ionViewWillEnter(): void {
-    this.fetchRooms();
+    this.fetchRooms(this._pagination);
   }
 
   ionViewWillLeave(): void {
     this._rooms = [];
     this._total = 0;
     this._loading = false;
+    this._pagination = { limit: this.CHUNK_SIZE };
   }
 
   get isManager(): boolean {
@@ -62,6 +64,30 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
     return this._loading;
   }
 
+  async loadMoreData(scroll: IonInfiniteScroll): Promise<void> {
+    const difference = (this._total - this._rooms.length) + this.CHUNK_SIZE;
+    const offset = difference < this.CHUNK_SIZE ? difference : this.CHUNK_SIZE;
+
+    if (this._pagination.offset) {
+      this._pagination.offset += offset;
+    } else {
+      this._pagination.offset = offset;
+    }
+
+    const { total, data } = await this.roomService
+      .getAllRooms(this._pagination, this._filter)
+      .pipe(
+        tap(() => this._loading = true),
+        finalize(() => this._loading = false)
+      )
+      .toPromise();
+
+    this._total = total;
+    this._rooms.push(...data);
+
+    await scroll.complete();
+  }
+
   async openFilters(): Promise<void> {
     const modal = await this.modals
       .create({
@@ -78,7 +104,8 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
 
     if (filter && filter.roomTypes !== this._filter.roomTypes) {
       this._filter.roomTypes = filter.roomTypes;
-      this.fetchRooms();
+      this._pagination = { limit: this.CHUNK_SIZE };
+      this.fetchRooms(this._pagination);
     }
   }
 
@@ -115,11 +142,12 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
 
   async refreshRooms(refresher: IonRefresher): Promise<void> {
     await refresher.complete();
-    this.fetchRooms();
+    this._pagination = { limit: this.CHUNK_SIZE };
+    this.fetchRooms(this._pagination);
   }
 
-  private fetchRooms(): void {
-    this.roomService.getAllRooms(this._pagination, this._filter)
+  private fetchRooms(pagination: Pagination): void {
+    this.roomService.getAllRooms(pagination, this._filter)
       .pipe(
         tap(() => this._loading = true),
         finalize(() => this._loading = false)

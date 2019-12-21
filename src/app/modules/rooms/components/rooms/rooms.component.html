@@ -21,44 +21,47 @@
     <ion-refresher #refresher (ionRefresh)="refreshRooms(refresher)" slot="fixed"></ion-refresher>
 
     <ng-template [ngIf]="total && !isLoading">
-        <ion-card *ngFor="let room of rooms">
-            <ion-card-title (click)="openRoomPage(room)">
-                <ion-img src="assets/img/kek.jpg"></ion-img>
-            </ion-card-title>
+        <ion-list class="ion-padding-top">
+            <div (click)="openRoomPage(room)"
+                 *ngFor="let room of rooms"
+                 class="ion-margin-bottom border-bottom">
 
-            <ion-card-content (click)="openRoomPage(room)">
-                <ion-toolbar>
-                    <ion-label class="bold" slot="start">
-                        {{ room.roomType | translateRoomType }}
-                    </ion-label>
+                <ion-item lines="none">
+                    <ion-img src="assets/img/kek.jpg"></ion-img>
+                </ion-item>
 
-                    <ion-label slot="end">
-                        {{ room.cost }} руб/сутки
-                    </ion-label>
-                </ion-toolbar>
-            </ion-card-content>
+                <ion-item lines="none">
+                    <ion-toolbar>
+                        <ion-label class="bold" slot="start">
+                            {{ room.roomType | translateRoomType }}
+                        </ion-label>
 
-            <ion-card-content>
-                <app-room-action-buttons [roomId]="room.id"></app-room-action-buttons>
-            </ion-card-content>
-        </ion-card>
+                        <ion-label slot="end">
+                            {{ room.cost }} руб/сутки
+                        </ion-label>
+                    </ion-toolbar>
+                </ion-item>
+            </div>
+        </ion-list>
     </ng-template>
 
     <ng-template [ngIf]="isLoading">
-        <ion-card *ngFor="let i of 2 | countable">
-            <ion-card-title>
-                <ion-avatar style="--border-radius: 0; width: 100%; height: 160px;">
-                    <ion-skeleton-text animated=""></ion-skeleton-text>
-                </ion-avatar>
-            </ion-card-title>
+        <ion-list>
+            <div *ngFor="let i of 2 | countable" class="border-bottom">
+                <ion-item lines="none">
+                    <ion-avatar style="--border-radius: 0; width: 100%; height: 160px;">
+                        <ion-skeleton-text animated=""></ion-skeleton-text>
+                    </ion-avatar>
+                </ion-item>
 
-            <ion-card-content>
-                <ion-toolbar>
-                    <ion-skeleton-text animated slot="start" width="45%"></ion-skeleton-text>
-                    <ion-skeleton-text animated slot="end" width="45%"></ion-skeleton-text>
-                </ion-toolbar>
-            </ion-card-content>
-        </ion-card>
+                <ion-item lines="none">
+                    <ion-toolbar>
+                        <ion-skeleton-text animated slot="start" width="45%"></ion-skeleton-text>
+                        <ion-skeleton-text animated slot="end" width="45%"></ion-skeleton-text>
+                    </ion-toolbar>
+                </ion-item>
+            </div>
+        </ion-list>
     </ng-template>
 
     <ion-item *ngIf="!total && !isLoading" lines="none">
@@ -66,4 +69,8 @@
             Ничего не найдено!
         </ion-title>
     </ion-item>
+
+    <ion-infinite-scroll #scroll (ionInfinite)="loadMoreData(scroll)" [disabled]="total === rooms.length">
+        <ion-infinite-scroll-content loadingSpinner="dots"></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>
