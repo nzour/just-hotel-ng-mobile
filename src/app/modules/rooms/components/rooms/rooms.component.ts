@@ -19,7 +19,7 @@ import { Links, LinksPopoverComponent } from '../links-popover/links-popover.com
 export class RoomsComponent implements IonWillEnter, IonWillLeave {
 
   private _rooms = Array<RoomOutput>();
-  private _pagination: Pagination = { limit: 5 };
+  private _pagination: Pagination = { limit: 100 };
   private _filter: RoomFilter = {};
   private _total = 0;
   private _loading = false;

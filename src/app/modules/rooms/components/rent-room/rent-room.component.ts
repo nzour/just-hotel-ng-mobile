@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { RoomOutput, ServiceOutput } from '../../../shared/types/room';
 import { RoomService } from '../../services/room.service';
 import { RoomResolvedData } from '../../resolvers/room.resolver';
@@ -9,12 +9,12 @@ import { ReservationOutput, ReservationService } from '../../services/reservatio
 import { AlertController, IonRefresher } from '@ionic/angular';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CalendarComponentOptions, DayConfig } from 'ion2-calendar';
-import * as moment from 'moment';
 import { Moment } from 'moment';
-import { Guid, Timestamp } from '../../../shared/types/manual';
+import { Guid, Timestamp, tsToMoment } from '../../../shared/types/manual';
 import { ServicesResolvedData } from '../../resolvers/services.resolver';
 import { Location } from '@angular/common';
 import { ServicesService } from '../../services/services.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-rent-room',
@@ -37,7 +37,6 @@ export class RentRoomComponent implements OnInit, OnDestroy {
   constructor(
     private location: Location,
     private route: ActivatedRoute,
-    private router: Router,
     private roomService: RoomService,
     private reservationService: ReservationService,
     private servicesService: ServicesService,
@@ -46,7 +45,7 @@ export class RentRoomComponent implements OnInit, OnDestroy {
 
   get room(): RoomOutput {
     if (!this._room) {
-      throw new Error('Property \'room\' can\'t be uninitialized!');
+      throw new Error(`Property 'room' can't be uninitialized!`);
     }
 
     return this._room;
@@ -94,8 +93,11 @@ export class RentRoomComponent implements OnInit, OnDestroy {
     }
 
     const roomId = this._room.id;
-    const { from, to } = this._reservationForm.get('rentDates')!.value as { from: Moment, to: Moment };
     const serviceIds = this._reservationForm.get('services')!.value as Guid[];
+    let { from, to } = this._reservationForm.get('rentDates')!.value as { from: Moment, to: Moment };
+
+    from = from.startOf('day');
+    to = to.endOf('day');
 
     const days = to.diff(from, 'days') + 1;
     const moneyForServices = this._services
@@ -119,20 +121,21 @@ export class RentRoomComponent implements OnInit, OnDestroy {
 
   async refresh(refresher: IonRefresher): Promise<void> {
     await refresher.complete();
-    await this.fetchRoom();
-    await this.fetchReservations();
-    await this.fetchServices();
+    this.fetchRoom();
+    this.fetchReservations();
+    this.fetchServices();
+    this._datePickerOptions = this.createDatepickerOptions(this._reservations);
   }
 
   private createReservation(roomId: Guid, reservedFrom: Timestamp, reservedTo: Timestamp, serviceIds: Guid[]): void {
     this.reservationService
       .createReservation({ roomId, reservedFrom, reservedTo, serviceIds: serviceIds })
-      .subscribe(async () => await this.router.navigate(['rooms']));
+      .subscribe(() => this.back());
   }
 
-  private async fetchRoom(): Promise<void> {
+  private fetchRoom(): void {
     if (!this._room) {
-      await this.router.navigate(['rooms']);
+      this.back();
       return;
     }
 
@@ -141,9 +144,9 @@ export class RentRoomComponent implements OnInit, OnDestroy {
       .subscribe(output => this._room = output);
   }
 
-  private async fetchReservations(): Promise<void> {
+  private fetchReservations(): void {
     if (!this._room) {
-      await this.router.navigate(['rooms']);
+      this.back();
       return;
     }
 
@@ -152,13 +155,14 @@ export class RentRoomComponent implements OnInit, OnDestroy {
       .subscribe(output => this._reservations = output);
   }
 
-  private async fetchServices(): Promise<void> {
+  private fetchServices(): void {
     if (!this._room) {
-      await this.router.navigate(['rooms']);
+      this.back();
       return;
     }
 
-    this.servicesService.getAllServices()
+    this.servicesService
+      .getAllServices()
       .subscribe(output => this._services = output.data);
   }
 
@@ -168,15 +172,39 @@ export class RentRoomComponent implements OnInit, OnDestroy {
       daysConfig: [
         ...reservations.map(r => this.mapToDisabledDate(r.reservedTo)),
         ...reservations.map(r => this.mapToDisabledDate(r.reservedFrom)),
-        this.mapToDisabledDate(moment().valueOf())
+        ...this.extractDateRanges(reservations)
       ],
       monthPickerFormat: ['Янв', 'Февр', 'Март', 'Апр', 'Май', 'Июнь', 'Июль', 'Авг', 'Сент', 'Окт', 'Ноя', 'Дек']
     };
   }
 
+  /**
+   * Извлекаем дни между датами каждой резервации.
+   *
+   * @param reservations
+   */
+  private extractDateRanges(reservations: ReservationOutput[]): DayConfig[] {
+    const result = reservations.map(r => {
+      const startDate = tsToMoment(r.reservedFrom);
+      const endDate = tsToMoment(r.reservedTo);
+
+      const dates = Array<DayConfig>();
+      let now = startDate;
+
+      while (now.isAfter(startDate) || now.isBefore(endDate)) {
+        dates.push(this.mapToDisabledDate(now.unix()));
+        now.add(1, 'days');
+      }
+
+      return dates;
+    });
+
+    return _.flatten(result);
+  }
+
   private mapToDisabledDate(ts: Timestamp): DayConfig {
     return {
-      date: moment(ts).toDate(),
+      date: tsToMoment(ts).toDate(),
       disable: true
     };
   }
