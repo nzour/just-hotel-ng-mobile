@@ -1,0 +1,7 @@
+.border-bottom {
+  border-bottom: 1px solid silver;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

@@ -1,0 +1,52 @@
+<ion-header>
+    <ion-toolbar class="ion-text-center">
+        <ion-title>
+            Мои бронирования
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
+
+    <ng-template [ngIf]="!reservations.length && !isProcessing">
+        <ion-title class="ion-text-center">
+            У вас нет бронирований!
+        </ion-title>
+
+        <ion-button expand="block">
+            Перейти к просмотру номеров
+        </ion-button>
+    </ng-template>
+
+    <ng-template [ngIf]="!reservations.length && isProcessing">
+        <ion-list>
+            <ion-item *ngFor="let i of 6 | countable">
+                <ion-skeleton-text animated></ion-skeleton-text>
+            </ion-item>
+        </ion-list>
+    </ng-template>
+
+    <ng-template [ngIf]="reservations.length && !isProcessing">
+        <ion-list>
+            <div *ngFor="let reservation of reservations" class="border-bottom ion-padding-vertical">
+                <ion-toolbar class="ion-padding-horizontal">
+                    <ion-label slot="start" style="max-width: 80%">
+                        {{ reservation.room.roomType | translateRoomType }} за {{ reservation.cost }} / сутки
+                        <ion-chip color="primary">
+                            {{ reservation.reservedFrom | tsToDate }} - {{ reservation.reservedTo | tsToDate }}
+                        </ion-chip>
+                    </ion-label>
+
+                    <ion-icon [routerLink]="['/rooms', reservation.room.id, 'rent']" name="link" slot="end"></ion-icon>
+                </ion-toolbar>
+
+                <ion-toolbar *ngIf="reservation.services.length" class="ion-padding-horizontal">
+                    <ion-chip *ngFor="let service of reservation.services" color="tertiary">
+                        {{ service.name }} ({{ service.cost }} руб / сутки)
+                    </ion-chip>
+                </ion-toolbar>
+            </div>
+        </ion-list>
+    </ng-template>
+</ion-content>

@@ -58,6 +58,10 @@
                 {{ profile.role | translateRole }}
             </ion-label>
         </ion-item>
+
+        <ion-toolbar *ngIf="profile.role === 'Client'" class="ion-text-center">
+            <ion-chip routerLink="reservations" color="tertiary">Мои брониварония</ion-chip>
+        </ion-toolbar>
     </ng-template>
 
     <ng-template [ngIf]="!profile">

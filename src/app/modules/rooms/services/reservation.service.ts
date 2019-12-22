@@ -38,5 +38,5 @@ export interface ReservationOutput {
   reservedFrom: Timestamp,
   reservedTo: Timestamp,
   cost: number,
-  service: ServiceOutput[]
+  services: ServiceOutput[]
 }

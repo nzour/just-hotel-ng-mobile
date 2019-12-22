@@ -12,12 +12,14 @@ import { RoomTypePipe } from './pipes/room-type.pipe';
 import { FooterButtonsComponent } from './footer-buttons/footer-buttons.component';
 import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 import { CalendarModule } from 'ion2-calendar';
+import { TsToDatePipe } from './pipes/ts-to-date.pipe';
 
 @NgModule({
   declarations: [
     RolePipe,
     CountablePipe,
     RoomTypePipe,
+    TsToDatePipe,
     FooterButtonsComponent
   ],
   imports: [
@@ -44,6 +46,7 @@ import { CalendarModule } from 'ion2-calendar';
     RolePipe,
     RoomTypePipe,
     FooterButtonsComponent,
+    TsToDatePipe,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }

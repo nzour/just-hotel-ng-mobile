@@ -5,13 +5,15 @@ import { ProfileServicesModule } from './profile-services.module';
 import { ProfileComponent } from './components/profile/profile.component';
 import { UpdateNamesComponent } from './components/update-names/update-names.component';
 import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { UserReservationComponent } from './components/user-reservation/user-reservation.component';
 
 
 @NgModule({
   declarations: [
     ProfileComponent,
     UpdateNamesComponent,
-    UpdatePasswordComponent
+    UpdatePasswordComponent,
+    UserReservationComponent
   ],
   entryComponents: [
     UpdateNamesComponent,
