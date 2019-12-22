@@ -6,6 +6,16 @@
     </ion-toolbar>
 
     <ion-toolbar class="ion-text-center">
+        <ion-chip *ngIf="total" color="primary">
+            <ng-template [ngIf]="rooms.length !== total">
+                {{ rooms.length }} | {{ total }}
+            </ng-template>
+
+            <ng-template [ngIf]="rooms.length === total">
+                {{ total }}
+            </ng-template>
+        </ion-chip>
+
         <ion-chip (click)="openFilters()"
                   color="tertiary">
             Открыть фильтры

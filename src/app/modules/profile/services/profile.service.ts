@@ -2,6 +2,7 @@ import { ProfileInjectable } from '../profile-services.module';
 import { HttpClient } from '@angular/common/http';
 import { Guid, UserRole } from '../../shared/types/manual';
 import { Observable } from 'rxjs';
+import { ReservationOutput } from '../../rooms/services/reservation.service';
 
 @ProfileInjectable()
 export class ProfileService {
@@ -10,6 +11,10 @@ export class ProfileService {
 
   getProfile(): Observable<ProfileOutput> {
     return this.http.get<ProfileOutput>('profile');
+  }
+
+  getCurrentUserReservations(): Observable<ReservationOutput[]> {
+    return this.http.get<ReservationOutput[]>('profile/reservations');
   }
 
   updateNames(input: UpdateNamesInput): Observable<void> {
