@@ -14,7 +14,9 @@
             У вас нет бронирований!
         </ion-title>
 
-        <ion-button expand="block">
+        <ion-button [routerLink]="['/rooms']"
+                    class="ion-padding-vertical"
+                    expand="block">
             Перейти к просмотру номеров
         </ion-button>
     </ng-template>
