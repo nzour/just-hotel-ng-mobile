@@ -5,12 +5,22 @@
 </ion-header>
 
 <ion-content>
-    Tuta mnogo privlekatel'nogo content'a
+    <ion-toolbar class="ion-text-center">
+        <ion-label>
+            Тут много всякого контента
+        </ion-label>
+    </ion-toolbar>
 
-    <ion-toolbar>
-        <ion-button [routerLink]="['/rooms']" color="tertiary" slot="secondary">
+    <ion-item lines="none">
+        <ion-img src="assets/img/main.jpg"></ion-img>
+    </ion-item>
+
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar class="ion-padding-vertical">
+        <ion-button [routerLink]="['/rooms']" color="tertiary" expand="block">
             Посмотреть номера
         </ion-button>
     </ion-toolbar>
-
-</ion-content>
+</ion-footer>
