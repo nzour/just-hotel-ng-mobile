@@ -4,7 +4,7 @@ import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../services/loader.service';
 import { environment } from '../../../../environments/environment';
-import { catchError, delay, finalize } from 'rxjs/operators';
+import { catchError, finalize } from 'rxjs/operators';
 import { AppInjectable } from '../shared-service.module';
 import { NotifierService } from '../services/notifier.service';
 
@@ -34,7 +34,6 @@ export class ApiInterceptor implements HttpInterceptor {
 
     return next.handle(req)
       .pipe(
-        delay(1000),
         finalize(() => this.loaderService.decrease()),
         catchError((response: HttpErrorResponse) => {
           this.handleIfUnauthorized(response);
@@ -61,7 +60,7 @@ export class ApiInterceptor implements HttpInterceptor {
   }
 
   private handleIfBadRequest(response: HttpErrorResponse): void {
-    if (!this.isErrorReadable(response.error, response)) {
+    if (!ApiInterceptor.isErrorReadable(response.error, response)) {
       return;
     }
 
