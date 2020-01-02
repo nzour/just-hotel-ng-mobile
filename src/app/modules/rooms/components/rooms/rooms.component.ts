@@ -23,7 +23,7 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
   private _pagination: Pagination = { limit: this.CHUNK_SIZE };
   private _filter: RoomFilter = {};
   private _total = 0;
-  private _loading = false;
+  private _loading = true;
 
   constructor(
     private roomService: RoomService,
@@ -39,7 +39,7 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
   ionViewWillLeave(): void {
     this._rooms = [];
     this._total = 0;
-    this._loading = false;
+    this._loading = true;
     this._pagination = { limit: this.CHUNK_SIZE };
   }
 
@@ -56,12 +56,16 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
     return this._total;
   }
 
-  get filter(): RoomFilter {
-    return this._filter;
-  }
-
   get isLoading(): boolean {
     return this._loading;
+  }
+
+  get countPerPageTitle(): string {
+    if (this._rooms.length === this._total) {
+      return String(this._total);
+    }
+
+    return `${this._rooms.length} из ${this._total}`;
   }
 
   async loadMoreData(scroll: IonInfiniteScroll): Promise<void> {

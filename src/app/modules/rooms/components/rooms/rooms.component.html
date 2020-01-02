@@ -1,22 +1,13 @@
 <ion-header>
-    <ion-toolbar class="ion-margin-top ion-text-center">
+    <ion-toolbar class="ion-text-center" *ngIf="total">
         <ion-label>
-            У нас вы найдете только лучшие номера
+            Записей на странице {{ countPerPageTitle }}
         </ion-label>
     </ion-toolbar>
 
-    <ion-toolbar class="ion-text-center">
-        <ion-chip *ngIf="total" color="primary">
-            <ng-template [ngIf]="rooms.length !== total">
-                {{ rooms.length }} | {{ total }}
-            </ng-template>
-
-            <ng-template [ngIf]="rooms.length === total">
-                {{ total }}
-            </ng-template>
-        </ion-chip>
-
+    <ion-toolbar class="ion-text-center" *ngIf="total">
         <ion-chip (click)="openFilters()"
+                  class="ion-margin-vertical"
                   color="tertiary">
             Открыть фильтры
         </ion-chip>
@@ -24,6 +15,12 @@
         <ion-chip *ngIf="isManager" (click)="openCreatePopover()" color="primary">
             Создать
         </ion-chip>
+    </ion-toolbar>
+
+    <ion-toolbar class="ion-text-center" *ngIf="!total && isLoading">
+        <ion-title>
+            Запрашиваю данные...
+        </ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -65,10 +62,7 @@
                 </ion-item>
 
                 <ion-item lines="none">
-                    <ion-toolbar>
-                        <ion-skeleton-text animated slot="start" width="45%"></ion-skeleton-text>
-                        <ion-skeleton-text animated slot="end" width="45%"></ion-skeleton-text>
-                    </ion-toolbar>
+                    <ion-skeleton-text animated></ion-skeleton-text>
                 </ion-item>
             </div>
         </ion-list>

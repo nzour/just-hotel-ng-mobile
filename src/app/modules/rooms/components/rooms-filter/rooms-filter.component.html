@@ -12,11 +12,20 @@
             </ion-list-header>
         </ion-list>
 
-        <ion-select formControlName="roomTypes" placeholder="Все" multiple>
-            <ion-select-option value="Single">Однокомнатный</ion-select-option>
-            <ion-select-option value="Double">Двухкомнатный</ion-select-option>
-            <ion-select-option value="Triple">Трехкомнатный</ion-select-option>
-        </ion-select>
+        <ion-item>
+            <ion-label> {{ 'Single' | translateRoomType }} </ion-label>
+            <ion-checkbox formControlName="Single"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label> {{ 'Double' | translateRoomType }} </ion-label>
+            <ion-checkbox formControlName="Double"></ion-checkbox>
+        </ion-item>
+
+        <ion-item>
+            <ion-label> {{ 'Triple' | translateRoomType }} </ion-label>
+            <ion-checkbox formControlName="Triple"></ion-checkbox>
+        </ion-item>
     </ion-toolbar>
 
     <ion-toolbar class="ion-text-center ion-margin-top">

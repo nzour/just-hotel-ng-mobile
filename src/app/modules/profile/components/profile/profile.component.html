@@ -59,8 +59,28 @@
             </ion-label>
         </ion-item>
 
-        <ion-toolbar *ngIf="profile.role === 'Client'" class="ion-text-center">
-            <ion-chip routerLink="reservations" color="tertiary">Мои брониварония</ion-chip>
+        <ion-toolbar *ngIf="profile" class="ion-padding-horizontal">
+            <ion-chip (click)="openUpdateNamesDialog()" slot="start">
+                Редактировать
+            </ion-chip>
+
+            <ion-chip (click)="openUpdatePasswordDialog()" slot="end">
+                Изменить пароль
+            </ion-chip>
+        </ion-toolbar>
+
+        <ion-toolbar class="ion-margin-vertical">
+            <ion-button *ngIf="profile.role === 'Client'"
+                        class="ion-text-center ion-margin-bottom"
+                        color="tertiary"
+                        expand="block"
+                        [routerLink]="['reservations']">
+                Мои бронирования
+            </ion-button>
+
+            <ion-button color="danger" expand="block" (click)="logout()">
+                Выйти
+            </ion-button>
         </ion-toolbar>
     </ng-template>
 
@@ -69,21 +89,4 @@
             <ion-skeleton-text animated></ion-skeleton-text>
         </ion-item>
     </ng-template>
-
-    <ion-toolbar *ngIf="profile" class="ion-padding-horizontal">
-        <ion-chip (click)="openUpdateNamesDialog()" slot="start">
-            Редактировать
-        </ion-chip>
-
-        <ion-chip (click)="openUpdatePasswordDialog()" slot="end">
-            Изменить пароль
-        </ion-chip>
-    </ion-toolbar>
-
-    <ion-toolbar class="ion-margin-vertical">
-        <ion-button color="danger" expand="block" (click)="logout()">
-            Выйти
-        </ion-button>
-    </ion-toolbar>
-
 </ion-content>

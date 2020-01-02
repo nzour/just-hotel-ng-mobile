@@ -4,7 +4,7 @@ import { TokenService } from '../services/token.service';
 import { Router } from '@angular/router';
 import { LoaderService } from '../services/loader.service';
 import { environment } from '../../../../environments/environment';
-import { catchError, finalize } from 'rxjs/operators';
+import { catchError, delay, finalize } from 'rxjs/operators';
 import { AppInjectable } from '../shared-service.module';
 import { NotifierService } from '../services/notifier.service';
 
@@ -16,7 +16,8 @@ export class ApiInterceptor implements HttpInterceptor {
     private tokenService: TokenService,
     private loaderService: LoaderService,
     private notifier: NotifierService
-  ) { }
+  ) {
+  }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loaderService.increase();
@@ -31,17 +32,19 @@ export class ApiInterceptor implements HttpInterceptor {
       });
     }
 
-    return next.handle(req).pipe(
-      finalize(() => this.loaderService.decrease()),
-      catchError((response: HttpErrorResponse) => {
-        this.handleIfUnauthorized(response);
-        this.handleIfForbidden(response);
-        this.handleIfBadRequest(response);
-        this.handleIfServerError(response);
+    return next.handle(req)
+      .pipe(
+        delay(1000),
+        finalize(() => this.loaderService.decrease()),
+        catchError((response: HttpErrorResponse) => {
+          this.handleIfUnauthorized(response);
+          this.handleIfForbidden(response);
+          this.handleIfBadRequest(response);
+          this.handleIfServerError(response);
 
-        return throwError(response);
-      })
-    );
+          return throwError(response);
+        })
+      );
   }
 
   private handleIfUnauthorized(response: HttpErrorResponse): void {
@@ -73,7 +76,7 @@ export class ApiInterceptor implements HttpInterceptor {
     this.notifier.dispatchError('Ошибка сервера!');
   }
 
-  private isErrorReadable(error: any, response: HttpErrorResponse): error is ErrorResponse {
+  private static isErrorReadable(error: any, response: HttpErrorResponse): error is ErrorResponse {
     return ResponseCode.BAD_REQUEST === response.status;
   }
 }

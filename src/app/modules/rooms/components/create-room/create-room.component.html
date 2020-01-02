@@ -14,7 +14,7 @@
             </ion-title>
         </ion-item>
 
-        <ion-item lines="none" class="ion-text-center">
+        <ion-item class="ion-text-center">
             <ion-select cancel-text="Отмена"
                         formControlName="roomType"
                         interface="action-sheet"
@@ -39,8 +39,11 @@
             </ion-title>
         </ion-item>
 
-        <ion-item class="ion-text-center" lines="none">
-            <ion-input formControlName="cost" type="number"></ion-input>
+        <ion-item class="ion-text-center">
+            <ion-input formControlName="cost"
+                       placeholder="Укажите стоимость"
+                       type="number">
+            </ion-input>
         </ion-item>
     </form>
 </ion-content>

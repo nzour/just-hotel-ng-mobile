@@ -47,4 +47,8 @@ export class UserReservationComponent implements OnInit {
       )
       .subscribe(output => this._reservations = output);
   }
+
+  back(): void {
+    this.location.back();
+  }
 }

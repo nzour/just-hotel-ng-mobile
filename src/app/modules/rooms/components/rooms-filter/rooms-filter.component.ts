@@ -10,16 +10,27 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class RoomsFilterComponent {
 
-  private _form!: FormGroup;
+  private _form = new FormGroup({
+    Single: new FormControl(false),
+    Double: new FormControl(false),
+    Triple: new FormControl(false),
+  });
 
-  constructor(private modals: ModalController) { }
+  constructor(private modals: ModalController) {
+  }
 
   get form(): FormGroup {
     return this._form;
   }
 
   @Input() set filter(filter: RoomFilter) {
-    this._form = new FormGroup({ roomTypes: new FormControl(filter.roomTypes) });
+    if (!filter.roomTypes) {
+      return;
+    }
+
+    for (let roomType of filter.roomTypes) {
+      this._form.controls[roomType] = new FormControl(true);
+    }
   }
 
   async close(): Promise<void> {
@@ -27,7 +38,10 @@ export class RoomsFilterComponent {
   }
 
   async applyFilterAndClose(): Promise<void> {
-    await this.modals.dismiss({ roomTypes: this._form.value.roomTypes });
+    const roomTypes = Object.keys(this._form.controls)
+      .filter(key => ['Single', 'Double', 'Triple'].includes(key) && Boolean(this._form.controls[key].value));
+
+    await this.modals.dismiss({ roomTypes });
   }
 
   resetFilter(): void {

@@ -23,7 +23,8 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
     private alerts: AlertController,
     private modals: ModalController,
     private router: Router
-  ) { }
+  ) {
+  }
 
   ionViewWillEnter(): void {
     this.profileService

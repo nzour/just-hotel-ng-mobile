@@ -1,16 +1,10 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-button (click)="close()" color="light" slot="end">
-            <ion-icon name="close"></ion-icon>
-        </ion-button>
-    </ion-toolbar>
-
-    <ion-title class="ion-text-center ion-margin-bottom">
+<ion-header class="ion-padding-vertical ion-margin-bottom">
+    <ion-title class="ion-text-center">
         Гостиница <b>Зобор</b>
     </ion-title>
 </ion-header>
 
-<ion-content class="ion-padding-top">
+<ion-content>
     <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
     <ng-template [ngIfElse]="roomSkeleton" [ngIf]="room">
@@ -53,3 +47,11 @@
         </ion-item>
     </ng-template>
 </ion-content>
+
+<ion-footer class="ion-padding-vertical" no-border>
+    <ion-toolbar class="ion-margin-bottom">
+        <ion-button (click)="close()" expand="block">
+            Назад
+        </ion-button>
+    </ion-toolbar>
+</ion-footer>
