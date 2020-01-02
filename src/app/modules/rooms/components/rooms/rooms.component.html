@@ -1,11 +1,13 @@
-<ion-header>
-    <ion-toolbar class="ion-text-center" *ngIf="total">
+<app-title *ngIf="!total && isLoading" title="Запрашиваю данные..."></app-title>
+
+<ion-header *ngIf="total">
+    <ion-toolbar class="ion-text-center">
         <ion-label>
             Записей на странице {{ countPerPageTitle }}
         </ion-label>
     </ion-toolbar>
 
-    <ion-toolbar class="ion-text-center" *ngIf="total">
+    <ion-toolbar class="ion-text-center">
         <ion-chip (click)="openFilters()"
                   class="ion-margin-vertical"
                   color="tertiary">
@@ -15,12 +17,6 @@
         <ion-chip *ngIf="isManager" (click)="openCreatePopover()" color="primary">
             Создать
         </ion-chip>
-    </ion-toolbar>
-
-    <ion-toolbar class="ion-text-center" *ngIf="!total && isLoading">
-        <ion-title>
-            Запрашиваю данные...
-        </ion-title>
     </ion-toolbar>
 </ion-header>
 

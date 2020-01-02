@@ -1,8 +1,6 @@
-<ion-header>
-    Авторизация
-</ion-header>
+<app-title title="Авторизация" color="tertiary"></app-title>
 
-<ion-content class="sign-in-content">
+<ion-content>
     <form [formGroup]="loginForm">
         <ion-item>
             <ion-input type="text"
@@ -26,7 +24,7 @@
     </form>
 
     <ion-toolbar class="ion-text-center">
-        <ion-label [routerLink]="['sign-up']">
+        <ion-label [routerLink]="['/auth', 'sign-up']">
             Перейти к регистрации
         </ion-label>
     </ion-toolbar>

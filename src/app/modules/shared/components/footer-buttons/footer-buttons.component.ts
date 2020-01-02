@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { IonicColor } from '../types/manual';
+import { IonicColor } from '../../types/manual';
 
 @Component({
   selector: 'app-footer-buttons',

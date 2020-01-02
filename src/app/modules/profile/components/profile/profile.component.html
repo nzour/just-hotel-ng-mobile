@@ -1,10 +1,4 @@
-<ion-header>
-    <ion-toolbar>
-        <ion-title class="ion-text-center" color="tertiary">
-            Профиль
-        </ion-title>
-    </ion-toolbar>
-</ion-header>
+<app-title title="Профиль" color="tertiary"></app-title>
 
 <ion-content>
     <ion-refresher #refresher (ionRefresh)="refreshProfileData(refresher)" slot="fixed"></ion-refresher>
@@ -74,7 +68,7 @@
                         class="ion-text-center ion-margin-bottom"
                         color="tertiary"
                         expand="block"
-                        [routerLink]="['reservations']">
+                        [routerLink]="['/profile', 'reservations']">
                 Мои бронирования
             </ion-button>
 
