@@ -5,8 +5,7 @@ import { PopoverController } from '@ionic/angular';
 
 @Component({
   selector: 'app-links-popover',
-  templateUrl: './links-popover.component.html',
-  styleUrls: ['./links-popover.component.scss'],
+  templateUrl: './links-popover.component.html'
 })
 export class LinksPopoverComponent {
 
@@ -23,7 +22,7 @@ export class LinksPopoverComponent {
   }
 
   async onClicked(link: NavigateLink | HandleLink): Promise<void> {
-    if (this.isNavigateLink(link)) {
+    if (LinksPopoverComponent.isNavigateLink(link)) {
       await this.router.navigate(link.navigateTo);
     } else {
       link.click();
@@ -36,7 +35,11 @@ export class LinksPopoverComponent {
     }
   }
 
-  private isNavigateLink(link: any): link is NavigateLink {
+  itemLines(link: Link): string {
+    return this._links[this._links.length - 1] === link ? 'none' : '';
+  }
+
+  private static isNavigateLink(link: any): link is NavigateLink {
     return 'navigateTo' in link;
   }
 }

@@ -132,6 +132,7 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
       },
       {
         text: 'Создать услугу',
+        color: 'primary',
         navigateTo: ['rooms', 'services', 'create']
       }
     ];
