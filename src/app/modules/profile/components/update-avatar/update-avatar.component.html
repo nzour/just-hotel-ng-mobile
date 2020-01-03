@@ -1,0 +1,15 @@
+<ion-content>
+    <ion-toolbar>
+        <ion-img [src]="'data:image/png;base64, ' + avatar"></ion-img>
+    </ion-toolbar>
+
+    <ion-toolbar>
+        <ion-button (click)="confirm()" color="tertiary" slot="start">
+            Подтвердить
+        </ion-button>
+
+        <ion-button (click)="popovers.dismiss()" color="medium" slot="end">
+            Отмена
+        </ion-button>
+    </ion-toolbar>
+</ion-content>

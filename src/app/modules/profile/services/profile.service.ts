@@ -18,11 +18,15 @@ export class ProfileService {
   }
 
   updateNames(input: UpdateNamesInput): Observable<void> {
-    return this.http.put<void>('profile/update-names', input);
+    return this.http.patch<void>('profile/update-names', input);
   }
 
   updatePassword(input: UpdatePasswordInput): Observable<void> {
-    return this.http.put<void>('profile/update-password', input);
+    return this.http.patch<void>('profile/update-password', input);
+  }
+
+  updateAvatar(input: UpdateAvatarInput): Observable<void> {
+    return this.http.patch<void>('profile/update-avatar', input);
   }
 }
 
@@ -31,7 +35,8 @@ export interface ProfileOutput {
   firstName: string,
   lastName: string,
   login: string,
-  role: UserRole
+  role: UserRole,
+  avatar?: string
 }
 
 export interface UpdateNamesInput {
@@ -42,4 +47,8 @@ export interface UpdateNamesInput {
 export interface UpdatePasswordInput {
   oldPassword: string,
   newPassword: string
+}
+
+export interface UpdateAvatarInput {
+  avatar: string
 }

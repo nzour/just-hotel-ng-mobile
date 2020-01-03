@@ -5,7 +5,7 @@
 
     <ion-toolbar class="ion-margin-top">
         <ion-avatar style="margin: auto; width: 60%; height: 200px">
-            <ion-img *ngIf="profile" src="assets/img/default-avatar.png"></ion-img>
+            <ion-img *ngIf="profile" [src]="'data:image/png;base64, ' + avatar"></ion-img>
             <ion-skeleton-text *ngIf="!profile" animated></ion-skeleton-text>
         </ion-avatar>
 

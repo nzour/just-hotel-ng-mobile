@@ -29,6 +29,7 @@
     "@types/lodash": "^4.14.149",
     "@types/moment-timezone": "^0.5.12",
     "cordova-android": "8.1.0",
+    "cordova-browser": "^6.0.0",
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "core-js": "^2.5.4",
     "ion2-calendar": "^3.0.0-rc.0",
@@ -41,7 +42,7 @@
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.801.2",
-    "@angular-devkit/build-angular": "^0.803.21",
+    "@angular-devkit/build-angular": "~0.801.2",
     "@angular-devkit/core": "~8.1.2",
     "@angular-devkit/schematics": "~8.1.2",
     "@angular/cli": "~8.1.2",
@@ -83,7 +84,8 @@
       "cordova-plugin-telerik-imagepicker": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "browser"
     ]
   }
 }
