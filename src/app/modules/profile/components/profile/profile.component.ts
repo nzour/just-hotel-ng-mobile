@@ -21,7 +21,6 @@ import { UpdateAvatarComponent } from '../update-avatar/update-avatar.component'
 export class ProfileComponent implements IonWillEnter, IonDidLeave {
 
   private _profile?: ProfileOutput;
-  private _avatar?: string;
 
   constructor(
     private profileService: ProfileService,
@@ -33,7 +32,8 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
     private popovers: PopoverController,
     private platform: Platform,
     private imagePicker: ImagePicker
-  ) { }
+  ) {
+  }
 
   ionViewWillEnter(): void {
     this.profileService
@@ -54,7 +54,9 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
   }
 
   get avatar(): string {
-    return this._avatar || defaultAvatar;
+    return this.profile && this.profile.avatar
+      ? this.profile.avatar
+      : defaultAvatar;
   }
 
   async logout(): Promise<void> {
