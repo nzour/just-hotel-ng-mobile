@@ -25,6 +25,10 @@ export function urlParams(...objects: any[]): string {
   return params.length ? '?' + params.join('&') : '';
 }
 
+export function firstOrDefault<T>(array: T[], predicate?: (arg: T) => boolean): T | undefined {
+  return array.find(item => predicate ? predicate(item) : true);
+}
+
 /**
  * Если нам нужно добавить в Query-параметры массив,
  * то необходимо объявить параметр несколько раз.

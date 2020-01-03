@@ -10,7 +10,7 @@
         </ion-avatar>
 
         <ion-toolbar class="ion-text-center">
-            <ion-chip color="medium" *ngIf="profile">
+            <ion-chip (click)="changeImage()" *ngIf="profile" color="medium">
                 Изменить
             </ion-chip>
         </ion-toolbar>

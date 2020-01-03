@@ -7,6 +7,8 @@ import { UpdateNamesComponent } from '../update-names/update-names.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
 import { delay } from 'rxjs/operators';
 import { IonDidLeave, IonWillEnter } from '../../../shared/types/ionic-hooks';
+import { ImagePicker, ImagePickerOptions, OutputType } from "@ionic-native/image-picker/ngx";
+import { firstOrDefault } from "../../../shared/utils/functional";
 
 @Component({
   selector: 'app-profile',
@@ -22,7 +24,8 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
     private tokenService: TokenService,
     private alerts: AlertController,
     private modals: ModalController,
-    private router: Router
+    private router: Router,
+    private imagePicker: ImagePicker
   ) {
   }
 
@@ -65,6 +68,18 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
   fetchProfileData(): void {
     this.profileService.getProfile()
       .subscribe(output => this._profile = output);
+  }
+
+  async changeImage(): Promise<void> {
+    const options: ImagePickerOptions = {
+      allow_video: false,
+      maximumImagesCount: 1,
+      outputType: OutputType.DATA_URL
+    };
+
+    const base64Images: string[] = await this.imagePicker.getPictures(options);
+
+    const pickedImage = firstOrDefault(base64Images);
   }
 
   async refreshProfileData(refresher: IonRefresher): Promise<void> {

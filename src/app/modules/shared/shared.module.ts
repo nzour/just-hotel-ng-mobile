@@ -14,6 +14,7 @@ import { Ionic4DatepickerModule } from '@logisticinfotech/ionic4-datepicker';
 import { CalendarModule } from 'ion2-calendar';
 import { TsToDatePipe } from './pipes/ts-to-date.pipe';
 import { AppTitleComponent } from "./components/app-title/app-title.component";
+import { ImagePicker } from "@ionic-native/image-picker/ngx";
 
 const declarations = [
   RolePipe,
@@ -49,7 +50,8 @@ const declarations = [
     ...declarations
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+    ImagePicker
   ]
 })
 export class SharedModule {
