@@ -1,20 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProfileService } from '../../services/profile.service';
 import { ModalController } from '@ionic/angular';
+import { NotifierService } from "../../../shared/services/notifier.service";
 
 @Component({
   selector: 'app-update-password',
   templateUrl: './update-password.component.html',
   styleUrls: ['./update-password.component.scss'],
 })
-export class UpdatePasswordComponent implements OnInit {
+export class UpdatePasswordComponent {
 
-  constructor(private profileService: ProfileService, private modals: ModalController) { }
+  constructor(
+    private profileService: ProfileService,
+    private modals: ModalController,
+    private notifier: NotifierService
+  ) {
+  }
 
   private _passwordForm = new FormGroup({
     oldPassword: new FormControl('', [Validators.required]),
-    newPassword: new FormControl('', [Validators.required, Validators.minLength(6)])
+    newPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    newPasswordReplica: new FormControl('', [Validators.required, this.arePasswordsEquals.bind(this)])
   });
 
   get passwordForm(): FormGroup {
@@ -25,14 +32,9 @@ export class UpdatePasswordComponent implements OnInit {
     return this.hasError('newPasswordReplica', 'notEquals') && !this.hasError('newPasswordReplica', 'required');
   }
 
-  ngOnInit(): void {
-    this._passwordForm.addControl(
-      'newPasswordReplica', new FormControl('', [Validators.required, this.arePasswordsEquals.bind(this)])
-    );
-  }
-
-  updatePassword(): void {
+  async updatePassword(): Promise<void> {
     if (!this._passwordForm.valid) {
+      await this.notifier.dispatchError('Не все данные заполены корректно!');
       return;
     }
 
@@ -41,14 +43,14 @@ export class UpdatePasswordComponent implements OnInit {
       .subscribe(async () => await this.close());
   }
 
-  hasError(controlName: string, validation: 'required' | 'minlength' | 'notEquals'): boolean {
+  hasError(controlName: string, errorCode: 'required' | 'minlength' | 'notEquals'): boolean {
     const control = this._passwordForm.get(controlName);
 
     if (!control || !control.dirty) {
       return false;
     }
 
-    return control.hasError(validation);
+    return control.hasError(errorCode);
   }
 
   async close(): Promise<void> {
@@ -56,6 +58,10 @@ export class UpdatePasswordComponent implements OnInit {
   }
 
   private arePasswordsEquals(control: FormControl): { notEquals: true } | null {
+    if (!this._passwordForm) {
+      return null;
+    }
+
     const passwordControl = this._passwordForm.get('newPassword');
 
     if (!passwordControl) {

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ProfileService, UpdateNamesInput } from '../../services/profile.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { NotifierService } from "../../../shared/services/notifier.service";
 
 @Component({
   selector: 'app-update-names',
@@ -12,7 +13,12 @@ export class UpdateNamesComponent {
 
   private _namesForm!: FormGroup;
 
-  constructor(private profileService: ProfileService, private modals: ModalController) { }
+  constructor(
+    private profileService: ProfileService,
+    private modals: ModalController,
+    private notifier: NotifierService
+  ) {
+  }
 
   get namesForm(): FormGroup {
     return this._namesForm;
@@ -25,8 +31,9 @@ export class UpdateNamesComponent {
     });
   }
 
-  updateNames(): void {
+  async updateNames(): Promise<void> {
     if (!this._namesForm.valid) {
+      await this.notifier.dispatchError('Не все данные заполены корректно!');
       return;
     }
 
