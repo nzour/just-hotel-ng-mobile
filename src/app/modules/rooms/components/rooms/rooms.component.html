@@ -29,9 +29,17 @@
                  *ngFor="let room of rooms"
                  class="ion-margin-bottom border-bottom">
 
-                <ion-item lines="none">
-                    <ion-img src="assets/img/kek.jpg"></ion-img>
-                </ion-item>
+                <ng-template [ngIf]="room.images.length">
+                    <ion-slides [pager]="true" [scrollbar]="true">
+                        <ion-slide *ngFor="let imageBase64 of room.images">
+                            <ion-img [src]="'data:image/jpeg;base64,' + imageBase64"></ion-img>
+                        </ion-slide>
+                    </ion-slides>
+                </ng-template>
+
+                <ng-template [ngIf]="!room.images.length">
+                    <ion-img [src]="'data:image/jpeg;base64,' + timur"></ion-img>
+                </ng-template>
 
                 <ion-item lines="none">
                     <ion-toolbar>
