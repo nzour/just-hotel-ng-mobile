@@ -9,7 +9,7 @@ import { delay } from 'rxjs/operators';
 import { IonDidLeave, IonWillEnter } from '../../../shared/types/ionic-hooks';
 import { ImagePicker, ImagePickerOptions, OutputType } from '@ionic-native/image-picker/ngx';
 import { firstOrDefault } from '../../../shared/utils/functional';
-import { defaultAvatar } from '../../../shared/utils/constant';
+import { defaultAvatar } from '../../../shared/utils/constants/default-avatar';
 import { NotifierService } from '../../../shared/services/notifier.service';
 import { UpdateAvatarComponent } from '../update-avatar/update-avatar.component';
 

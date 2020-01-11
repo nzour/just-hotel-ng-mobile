@@ -4,6 +4,7 @@ export interface RoomOutput {
   id: Guid;
   roomType: RoomType;
   cost: number;
+  images: string[];
 }
 
 export interface ServiceOutput {
