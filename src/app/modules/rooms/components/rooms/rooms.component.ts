@@ -10,7 +10,7 @@ import { RoomComponent } from '../room/room.component';
 import { finalize, tap } from 'rxjs/operators';
 import { IonWillEnter, IonWillLeave } from '../../../shared/types/ionic-hooks';
 import { Links, LinksPopoverComponent } from '../links-popover/links-popover.component';
-import { timur } from "../../../shared/utils/constants/timur";
+import { timur } from '../../../shared/utils/constants/timur';
 
 @Component({
   selector: 'app-rooms',
@@ -88,7 +88,7 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
       .toPromise();
 
     this._total = total;
-    this._rooms.push(...data);
+    this._rooms = [...this._rooms, ...data];
 
     await scroll.complete();
   }
