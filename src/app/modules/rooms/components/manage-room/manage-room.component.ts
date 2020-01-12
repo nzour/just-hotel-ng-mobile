@@ -9,11 +9,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NotifierService } from '../../../shared/services/notifier.service';
 import { IonRefresher } from '@ionic/angular';
 import { finalize, tap } from 'rxjs/operators';
+import { PictureLoaderService } from '../../../shared/services/picture-loader.service';
 
 @Component({
   selector: 'app-manage-room',
   templateUrl: './manage-room.component.html',
-  styleUrls: ['./manage-room.component.scss'],
+  styleUrls: ['../room-shared-styles.scss'],
 })
 export class ManageRoomComponent implements OnInit {
 
@@ -26,7 +27,8 @@ export class ManageRoomComponent implements OnInit {
     private router: Router,
     private location: Location,
     private roomService: RoomService,
-    private notifier: NotifierService
+    private notifier: NotifierService,
+    private pictureLoader: PictureLoaderService
   ) { }
 
   ngOnInit() {
@@ -41,17 +43,27 @@ export class ManageRoomComponent implements OnInit {
     return this._roomForm;
   }
 
+  get room(): RoomOutput {
+    if (!this._room) {
+      throw new Error('Room has not been initialized');
+    }
+
+    return this._room;
+  }
+
   back(): void {
     this.location.back();
   }
 
   updateRoom(): void {
-    if (this._processing || !this._roomForm || !this._roomForm.valid) {
+    if (this._processing || !this._roomForm || !this._roomForm.valid || !this._room) {
       return;
     }
 
+    const input = { ...this._roomForm.value, images: this._room.images || [] };
+
     this.roomService
-      .updateRoom(this._roomForm.value)
+      .updateRoom(input)
       .pipe(
         tap(() => this._processing = true),
         finalize(() => this._processing = false)
@@ -60,6 +72,30 @@ export class ManageRoomComponent implements OnInit {
         await this.notifier.dispatchSuccess('Успешно!');
         await this.fetchRoom();
       });
+  }
+
+  async loadPictures(): Promise<void> {
+    if (!this._room) {
+      throw new Error(`Room hasn't been initialized.`);
+    }
+
+    const images = await this.pictureLoader.loadImages(2);
+
+    if (!images.length) {
+      await this.notifier.dispatchError('Не было выбрано ни одно изображение');
+      return;
+    }
+
+    this._room.images = [...this._room.images, ...images];
+    await this.notifier.dispatchSuccess('Успешно!');
+  }
+
+  removeImage(index: number): void {
+    if (!this._room) {
+      throw new Error(`Room hasn't been initialized.`);
+    }
+
+    this._room.images = this._room.images.filter((img, i) => i !== index);
   }
 
   async refresh(refresher: IonRefresher): Promise<void> {

@@ -10,7 +10,7 @@ import { RoomComponent } from '../room/room.component';
 import { finalize, tap } from 'rxjs/operators';
 import { IonWillEnter, IonWillLeave } from '../../../shared/types/ionic-hooks';
 import { Links, LinksPopoverComponent } from '../links-popover/links-popover.component';
-import { timur } from '../../../shared/utils/constants/timur';
+import { noImage } from '../../../shared/utils/constants/noImage';
 
 @Component({
   selector: 'app-rooms',
@@ -146,8 +146,8 @@ export class RoomsComponent implements IonWillEnter, IonWillLeave {
     await popover.present();
   }
 
-  get timur(): string {
-    return timur;
+  get noImage(): string {
+    return noImage;
   }
 
   async refreshRooms(refresher: IonRefresher): Promise<void> {

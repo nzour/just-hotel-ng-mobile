@@ -1,50 +1,67 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title class="ion-text-center">
-            Управление номером
-        </ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      Управление номером
+    </ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding-top">
-    <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
+  <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
-    <form *ngIf="roomForm" [formGroup]="roomForm">
-        <ion-item lines="none">
-            <ion-title class="ion-text-center">
-                Тип номера по кол-ву комнат
-            </ion-title>
-        </ion-item>
+  <form *ngIf="roomForm" [formGroup]="roomForm">
+    <ion-item lines="none">
+      <ion-title class="ion-text-center">
+        Тип номера по кол-ву комнат
+      </ion-title>
+    </ion-item>
 
-        <ion-item>
-            <ion-select cancel-text="Отмена"
-                        formControlName="roomType"
-                        interface="action-sheet"
-                        style="max-width: 100% !important; text-align: center !important;">
-                <ion-select-option value="Single">
-                    Однокомнатный
-                </ion-select-option>
+    <ion-item>
+      <ion-select cancel-text="Отмена"
+                  formControlName="roomType"
+                  interface="action-sheet"
+                  style="max-width: 100% !important; text-align: center !important;">
+        <ion-select-option value="Single">
+          Однокомнатный
+        </ion-select-option>
 
-                <ion-select-option value="Double">
-                    Двухкомнатный
-                </ion-select-option>
+        <ion-select-option value="Double">
+          Двухкомнатный
+        </ion-select-option>
 
-                <ion-select-option value="Triple">
-                    Трехкомнатный
-                </ion-select-option>
-            </ion-select>
-        </ion-item>
+        <ion-select-option value="Triple">
+          Трехкомнатный
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
 
-        <ion-item class="ion-margin-top" lines="none">
-            <ion-title class="ion-text-center">
-                Стоимость номера
-            </ion-title>
-        </ion-item>
+    <ion-item class="ion-margin-top" lines="none">
+      <ion-title class="ion-text-center">
+        Стоимость номера
+      </ion-title>
+    </ion-item>
 
-        <ion-item class="ion-text-center">
-            <ion-input formControlName="cost" type="number"></ion-input>
-        </ion-item>
-    </form>
+    <ion-item class="ion-text-center">
+      <ion-input formControlName="cost" type="number"></ion-input>
+    </ion-item>
+  </form>
+
+  <ion-item *ngIf="!room.images.length" class="ion-text-center" lines="none">
+    <ion-title color="medium">Нет изображений</ion-title>
+  </ion-item>
+
+  <ion-slides *ngIf="room.images.length" [pager]="true">
+    <ion-slide *ngFor="let base64Image of room.images; let i = index">
+      <div class="ion-text-center" style="padding-bottom: 25px">
+        <ion-img [src]="'data:image/png;base64, ' + base64Image" class="image"></ion-img>
+        <ion-chip (click)="removeImage(i)" color="danger">Удалить</ion-chip>
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-toolbar class="ion-text-center">
+    <ion-chip (click)="loadPictures()" color="tertiary">Загрузить изображения</ion-chip>
+  </ion-toolbar>
 </ion-content>
 
 <app-footer-buttons (cancelButtonClick)="back()"

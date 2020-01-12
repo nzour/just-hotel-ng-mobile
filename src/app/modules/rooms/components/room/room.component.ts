@@ -1,45 +1,61 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RoomService } from '../../services/room.service';
 import { RoomOutput } from '../../../shared/types/room';
 import { NotifierService } from '../../../shared/services/notifier.service';
-import { IonRefresher, ModalController } from '@ionic/angular';
+import { IonRefresher } from '@ionic/angular';
+import { firstOrDefault } from '../../../shared/utils/functional';
+import { noImage } from '../../../shared/utils/constants/noImage';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { RoomResolvedData } from '../../resolvers/room.resolver';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
-  styleUrls: ['./room.component.scss']
+  styleUrls: ['../room-shared-styles.scss']
 })
-export class RoomComponent {
+export class RoomComponent implements OnInit {
 
   private _room?: RoomOutput;
 
   constructor(
+    private route: ActivatedRoute,
     private roomService: RoomService,
-    private modals: ModalController,
+    private location: Location,
     private notifier: NotifierService
   ) { }
+
+  ngOnInit(): void {
+    (this.route.data as Observable<RoomResolvedData>)
+      .subscribe(data => this._room = data.room);
+  }
 
   get room(): RoomOutput | undefined {
     return this._room;
   }
 
-  @Input() set room(value: RoomOutput | undefined) {
-    this._room = value;
+  get firstOrDefaultImage(): string {
+    if (!this._room) {
+      throw new Error(`Room hasn't been initialized!`);
+    }
+
+    return firstOrDefault(this._room.images) || noImage;
   }
 
   async refresh(refresher: IonRefresher): Promise<void> {
-    await refresher.complete;
+    await refresher.complete();
     await this.fetchRoom();
   }
 
-  async close(): Promise<void> {
-    await this.modals.dismiss();
+  back(): void {
+    this.location.back();
   }
 
   private async fetchRoom(): Promise<void> {
     if (!this._room) {
       await this.notifier.dispatchError('Возникла критическая ошибка!');
-      await this.close();
+      await this.back();
       return;
     }
 

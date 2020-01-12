@@ -1,86 +1,86 @@
 <app-title title="Профиль" color="tertiary"></app-title>
 
 <ion-content>
-    <ion-refresher #refresher (ionRefresh)="refreshProfileData(refresher)" slot="fixed"></ion-refresher>
+  <ion-refresher #refresher (ionRefresh)="refreshProfileData(refresher)" slot="fixed"></ion-refresher>
 
-    <ion-toolbar class="ion-margin-top">
-        <ion-avatar style="margin: auto; width: 60%; height: 200px">
-            <ion-img *ngIf="profile" [src]="'data:image/png;base64, ' + avatar"></ion-img>
-            <ion-skeleton-text *ngIf="!profile" animated></ion-skeleton-text>
-        </ion-avatar>
+  <ion-toolbar class="ion-margin-top">
+    <ion-avatar style="margin: auto; width: 60%; height: 200px">
+      <ion-img *ngIf="profile" [src]="avatar | toBase64Image"></ion-img>
+      <ion-skeleton-text *ngIf="!profile" animated></ion-skeleton-text>
+    </ion-avatar>
 
-        <ion-toolbar class="ion-text-center">
-            <ion-chip (click)="changeImage()" *ngIf="profile" color="medium">
-                Изменить
-            </ion-chip>
-        </ion-toolbar>
+    <ion-toolbar class="ion-text-center">
+      <ion-chip (click)="changeImage()" *ngIf="profile" color="medium">
+        Изменить
+      </ion-chip>
+    </ion-toolbar>
+  </ion-toolbar>
+
+  <ng-template [ngIf]="profile">
+    <ion-item>
+      <ion-label class="bold">
+        Имя:
+      </ion-label>
+      <ion-label>
+        {{ profile.firstName }}
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="bold">
+        Фамилия:
+      </ion-label>
+      <ion-label>
+        {{ profile.lastName }}
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="bold">
+        Логин
+      </ion-label>
+      <ion-label>
+        {{ profile.login }}
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label class="bold">
+        Роль
+      </ion-label>
+      <ion-label>
+        {{ profile.role | translateRole }}
+      </ion-label>
+    </ion-item>
+
+    <ion-toolbar *ngIf="profile" class="ion-padding-horizontal">
+      <ion-chip (click)="openUpdateNamesDialog()" slot="start">
+        Редактировать
+      </ion-chip>
+
+      <ion-chip (click)="openUpdatePasswordDialog()" slot="end">
+        Изменить пароль
+      </ion-chip>
     </ion-toolbar>
 
-    <ng-template [ngIf]="profile">
-        <ion-item>
-            <ion-label class="bold">
-                Имя:
-            </ion-label>
-            <ion-label>
-                {{ profile.firstName }}
-            </ion-label>
-        </ion-item>
+    <ion-toolbar class="ion-margin-vertical">
+      <ion-button *ngIf="profile.role === 'Client'"
+                  class="ion-text-center ion-margin-bottom"
+                  color="tertiary"
+                  expand="block"
+                  [routerLink]="['/profile', 'reservations']">
+        Мои бронирования
+      </ion-button>
 
-        <ion-item>
-            <ion-label class="bold">
-                Фамилия:
-            </ion-label>
-            <ion-label>
-                {{ profile.lastName }}
-            </ion-label>
-        </ion-item>
+      <ion-button color="danger" expand="block" (click)="logout()">
+        Выйти
+      </ion-button>
+    </ion-toolbar>
+  </ng-template>
 
-        <ion-item>
-            <ion-label class="bold">
-                Логин
-            </ion-label>
-            <ion-label>
-                {{ profile.login }}
-            </ion-label>
-        </ion-item>
-
-        <ion-item>
-            <ion-label class="bold">
-                Роль
-            </ion-label>
-            <ion-label>
-                {{ profile.role | translateRole }}
-            </ion-label>
-        </ion-item>
-
-        <ion-toolbar *ngIf="profile" class="ion-padding-horizontal">
-            <ion-chip (click)="openUpdateNamesDialog()" slot="start">
-                Редактировать
-            </ion-chip>
-
-            <ion-chip (click)="openUpdatePasswordDialog()" slot="end">
-                Изменить пароль
-            </ion-chip>
-        </ion-toolbar>
-
-        <ion-toolbar class="ion-margin-vertical">
-            <ion-button *ngIf="profile.role === 'Client'"
-                        class="ion-text-center ion-margin-bottom"
-                        color="tertiary"
-                        expand="block"
-                        [routerLink]="['/profile', 'reservations']">
-                Мои бронирования
-            </ion-button>
-
-            <ion-button color="danger" expand="block" (click)="logout()">
-                Выйти
-            </ion-button>
-        </ion-toolbar>
-    </ng-template>
-
-    <ng-template [ngIf]="!profile">
-        <ion-item *ngFor="let i of 4 | countable">
-            <ion-skeleton-text animated></ion-skeleton-text>
-        </ion-item>
-    </ng-template>
+  <ng-template [ngIf]="!profile">
+    <ion-item *ngFor="let i of 4 | countable">
+      <ion-skeleton-text animated></ion-skeleton-text>
+    </ion-item>
+  </ng-template>
 </ion-content>

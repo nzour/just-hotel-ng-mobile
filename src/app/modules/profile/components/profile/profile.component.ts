@@ -1,17 +1,16 @@
 import { Component } from '@angular/core';
 import { ProfileOutput, ProfileService } from '../../services/profile.service';
-import { AlertController, IonRefresher, ModalController, Platform, PopoverController } from '@ionic/angular';
+import { AlertController, IonRefresher, ModalController, PopoverController } from '@ionic/angular';
 import { TokenService } from '../../../shared/services/token.service';
 import { Router } from '@angular/router';
 import { UpdateNamesComponent } from '../update-names/update-names.component';
 import { UpdatePasswordComponent } from '../update-password/update-password.component';
 import { delay } from 'rxjs/operators';
 import { IonDidLeave, IonWillEnter } from '../../../shared/types/ionic-hooks';
-import { ImagePicker, ImagePickerOptions, OutputType } from '@ionic-native/image-picker/ngx';
-import { firstOrDefault } from '../../../shared/utils/functional';
 import { defaultAvatar } from '../../../shared/utils/constants/default-avatar';
 import { NotifierService } from '../../../shared/services/notifier.service';
 import { UpdateAvatarComponent } from '../update-avatar/update-avatar.component';
+import { PictureLoaderService } from '../../../shared/services/picture-loader.service';
 
 @Component({
   selector: 'app-profile',
@@ -30,8 +29,7 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
     private router: Router,
     private notifier: NotifierService,
     private popovers: PopoverController,
-    private platform: Platform,
-    private imagePicker: ImagePicker
+    private pictureLoader: PictureLoaderService
   ) {
   }
 
@@ -83,14 +81,7 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
   }
 
   async changeImage(): Promise<void> {
-    const base64Images: string[] = await this.pickupImages();
-    const avatar = firstOrDefault(base64Images);
-
-    if (!avatar) {
-      await this.notifier.dispatchError('Возникла ошибка при загрузке изображения!');
-      setTimeout(window.location.reload, 4000);
-      return;
-    }
+    const avatar = await this.pictureLoader.loadOneImage();
 
     const popover = await this.popovers
       .create({
@@ -132,19 +123,5 @@ export class ProfileComponent implements IonWillEnter, IonDidLeave {
     });
 
     await modal.present();
-  }
-
-  private async pickupImages(): Promise<string[]> {
-    const options: ImagePickerOptions = {
-      allow_video: false,
-      maximumImagesCount: 1,
-      outputType: OutputType.DATA_URL
-    };
-
-    if (this.platform.is('cordova')) {
-      return this.imagePicker.getPictures(options);
-    }
-
-    return Promise.resolve([defaultAvatar]);
   }
 }

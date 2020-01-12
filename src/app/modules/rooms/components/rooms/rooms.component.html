@@ -1,84 +1,84 @@
 <app-title *ngIf="!total && isLoading" title="Запрашиваю данные..."></app-title>
 
 <ion-header *ngIf="total">
-    <ion-toolbar class="ion-text-center">
-        <ion-label>
-            Записей на странице {{ countPerPageTitle }}
-        </ion-label>
-    </ion-toolbar>
+  <ion-toolbar class="ion-text-center">
+    <ion-label>
+      Записей на странице {{ countPerPageTitle }}
+    </ion-label>
+  </ion-toolbar>
 
-    <ion-toolbar class="ion-text-center">
-        <ion-chip (click)="openFilters()"
-                  class="ion-margin-vertical"
-                  color="tertiary">
-            Открыть фильтры
-        </ion-chip>
+  <ion-toolbar class="ion-text-center">
+    <ion-chip (click)="openFilters()"
+              class="ion-margin-vertical"
+              color="tertiary">
+      Открыть фильтры
+    </ion-chip>
 
-        <ion-chip *ngIf="isManager" (click)="openCreatePopover()" color="primary">
-            Создать
-        </ion-chip>
-    </ion-toolbar>
+    <ion-chip *ngIf="isManager" (click)="openCreatePopover()" color="primary">
+      Создать
+    </ion-chip>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>
-    <ion-refresher #refresher (ionRefresh)="refreshRooms(refresher)" slot="fixed"></ion-refresher>
+  <ion-refresher #refresher (ionRefresh)="refreshRooms(refresher)" slot="fixed"></ion-refresher>
 
-    <ng-template [ngIf]="total && !isLoading">
-        <ion-list class="ion-padding-top">
-            <div (click)="openRoomPage(room)"
-                 *ngFor="let room of rooms"
-                 class="ion-margin-bottom border-bottom">
+  <ng-template [ngIf]="total && !isLoading">
+    <ion-list class="ion-padding-top">
+      <div [routerLink]="['/rooms', room.id]"
+           *ngFor="let room of rooms"
+           class="ion-margin-bottom border-bottom">
 
-                <ng-template [ngIf]="room.images.length">
-                    <ion-slides [pager]="true" [scrollbar]="true">
-                        <ion-slide *ngFor="let imageBase64 of room.images">
-                            <ion-img [src]="'data:image/jpeg;base64,' + imageBase64"></ion-img>
-                        </ion-slide>
-                    </ion-slides>
-                </ng-template>
+        <ng-template [ngIf]="room.images.length">
+          <ion-slides [pager]="true" [scrollbar]="true">
+            <ion-slide *ngFor="let image of room.images">
+              <ion-img [src]="image | toBase64Image" class="image"></ion-img>
+            </ion-slide>
+          </ion-slides>
+        </ng-template>
 
-                <ng-template [ngIf]="!room.images.length">
-                    <ion-img [src]="'data:image/jpeg;base64,' + timur"></ion-img>
-                </ng-template>
+        <ng-template [ngIf]="!room.images.length">
+          <ion-img [src]="noImage | toBase64Image" class="image"></ion-img>
+        </ng-template>
 
-                <ion-item lines="none">
-                    <ion-toolbar>
-                        <ion-label class="bold" slot="start">
-                            {{ room.roomType | translateRoomType }}
-                        </ion-label>
+        <ion-item lines="none">
+          <ion-toolbar>
+            <ion-label class="bold" slot="start">
+              {{ room.roomType | translateRoomType }}
+            </ion-label>
 
-                        <ion-label slot="end">
-                            {{ room.cost }} руб/сутки
-                        </ion-label>
-                    </ion-toolbar>
-                </ion-item>
-            </div>
-        </ion-list>
-    </ng-template>
+            <ion-label slot="end">
+              {{ room.cost }} руб/сутки
+            </ion-label>
+          </ion-toolbar>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ng-template>
 
-    <ng-template [ngIf]="isLoading">
-        <ion-list>
-            <div *ngFor="let i of 2 | countable" class="border-bottom">
-                <ion-item lines="none">
-                    <ion-avatar style="--border-radius: 0; width: 100%; height: 160px;">
-                        <ion-skeleton-text animated=""></ion-skeleton-text>
-                    </ion-avatar>
-                </ion-item>
+  <ng-template [ngIf]="isLoading">
+    <ion-list>
+      <div *ngFor="let i of 2 | countable" class="border-bottom">
+        <ion-item lines="none">
+          <ion-avatar style="--border-radius: 0; width: 100%; height: 160px;">
+            <ion-skeleton-text animated=""></ion-skeleton-text>
+          </ion-avatar>
+        </ion-item>
 
-                <ion-item lines="none">
-                    <ion-skeleton-text animated></ion-skeleton-text>
-                </ion-item>
-            </div>
-        </ion-list>
-    </ng-template>
+        <ion-item lines="none">
+          <ion-skeleton-text animated></ion-skeleton-text>
+        </ion-item>
+      </div>
+    </ion-list>
+  </ng-template>
 
-    <ion-item *ngIf="!total && !isLoading" lines="none">
-        <ion-title class="ion-margin-top ion-text-center">
-            Ничего не найдено!
-        </ion-title>
-    </ion-item>
+  <ion-item *ngIf="!total && !isLoading" lines="none">
+    <ion-title class="ion-margin-top ion-text-center">
+      Ничего не найдено!
+    </ion-title>
+  </ion-item>
 
-    <ion-infinite-scroll #scroll (ionInfinite)="loadMoreData(scroll)" [disabled]="total === rooms.length">
-        <ion-infinite-scroll-content loadingSpinner="dots"></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  <ion-infinite-scroll #scroll (ionInfinite)="loadMoreData(scroll)" [disabled]="total === rooms.length">
+    <ion-infinite-scroll-content loadingSpinner="dots"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

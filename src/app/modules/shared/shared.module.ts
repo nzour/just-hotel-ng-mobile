@@ -15,12 +15,14 @@ import { CalendarModule } from 'ion2-calendar';
 import { TsToDatePipe } from './pipes/ts-to-date.pipe';
 import { AppTitleComponent } from './components/app-title/app-title.component';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { ToBase64ImagePipe } from './pipes/to-base-64-image.pipe';
 
 const declarations = [
   RolePipe,
   CountablePipe,
   RoomTypePipe,
   TsToDatePipe,
+  ToBase64ImagePipe,
   FooterButtonsComponent,
   AppTitleComponent
 ];

@@ -1,53 +1,61 @@
 <app-title></app-title>
 
 <ion-content>
-    <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
+  <ion-refresher #refresher (ionRefresh)="refresh(refresher)" slot="fixed"></ion-refresher>
 
-    <ng-template [ngIfElse]="roomSkeleton" [ngIf]="room">
-        <ion-item class="ion-margin-horizontal" lines="none">
-            <ion-img src="assets/img/kek.jpg"></ion-img>
-        </ion-item>
+  <ng-template [ngIfElse]="roomSkeleton" [ngIf]="room">
+    <ion-item *ngIf="!room.images.length || room.images.length === 1" class="ion-text-center" lines="none">
+      <ion-img [src]="firstOrDefaultImage | toBase64Image" class="image"></ion-img>
+    </ion-item>
 
-        <ion-item lines="none">
-            <ion-toolbar>
-                <ion-label slot="start">
-                    <b>Тип номера:</b>
-                </ion-label>
-
-                <ion-label slot="end">
-                    {{ room.roomType | translateRoomType }}
-                </ion-label>
-            </ion-toolbar>
-        </ion-item>
-
-        <ion-item lines="none">
-            <ion-toolbar>
-                <ion-label slot="start">
-                    <b>Стоимость:</b>
-                </ion-label>
-
-                <ion-label slot="end">
-                    {{ _room.cost }} руб/сутки
-                </ion-label>
-            </ion-toolbar>
-        </ion-item>
-
-        <app-room-action-buttons [roomId]="_room.id"></app-room-action-buttons>
+    <ng-template [ngIf]="room.images.length || room.images.length > 1">
+      <ion-slides [pager]="true" [scrollbar]="true">
+        <ion-slide *ngFor="let image of room.images">
+          <ion-img [src]="image | toBase64Image" class="image"></ion-img>
+        </ion-slide>
+      </ion-slides>
     </ng-template>
 
-    <ng-template #roomSkeleton>
-        <ion-item>
-            <ion-img>
-                <ion-skeleton-text></ion-skeleton-text>
-            </ion-img>
-        </ion-item>
-    </ng-template>
+    <ion-item lines="none">
+      <ion-toolbar>
+        <ion-label slot="start">
+          <b>Тип номера:</b>
+        </ion-label>
+
+        <ion-label slot="end">
+          {{ room.roomType | translateRoomType }}
+        </ion-label>
+      </ion-toolbar>
+    </ion-item>
+
+    <ion-item lines="none">
+      <ion-toolbar>
+        <ion-label slot="start">
+          <b>Стоимость:</b>
+        </ion-label>
+
+        <ion-label slot="end">
+          {{ _room.cost }} руб/сутки
+        </ion-label>
+      </ion-toolbar>
+    </ion-item>
+
+    <app-room-action-buttons [roomId]="_room.id"></app-room-action-buttons>
+  </ng-template>
+
+  <ng-template #roomSkeleton>
+    <ion-item>
+      <ion-img class="image">
+        <ion-skeleton-text></ion-skeleton-text>
+      </ion-img>
+    </ion-item>
+  </ng-template>
 </ion-content>
 
 <ion-footer class="ion-padding-vertical" no-border>
-    <ion-toolbar class="ion-margin-bottom">
-        <ion-button (click)="close()" expand="block">
-            Назад
-        </ion-button>
-    </ion-toolbar>
+  <ion-toolbar class="ion-margin-bottom">
+    <ion-button (click)="back()" expand="block">
+      Назад
+    </ion-button>
+  </ion-toolbar>
 </ion-footer>

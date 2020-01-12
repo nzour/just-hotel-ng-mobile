@@ -38,6 +38,7 @@ export interface RoomFilter {
 export interface RoomInput {
   roomType: RoomType;
   cost: number;
+  images: string[]
 }
 
 // endregion

@@ -10,11 +10,19 @@ import { CreateRoomComponent } from './components/create-room/create-room.compon
 import { CreateServiceComponent } from './components/create-service/create-service.component';
 import { OnlyClientGuard } from './guards/only-client.guard';
 import { ServicesResolver } from './resolvers/services.resolver';
+import { RoomComponent } from './components/room/room.component';
 
 const routes: Routes = [
   {
     path: '',
     component: RoomsComponent
+  },
+  {
+    path: ':roomId',
+    component: RoomComponent,
+    resolve: {
+      room: RoomResolver
+    }
   },
   {
     path: 'create',
