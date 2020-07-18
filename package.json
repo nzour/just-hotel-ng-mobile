@@ -33,7 +33,7 @@
     "cordova-plugin-telerik-imagepicker": "^2.3.3",
     "core-js": "^2.5.4",
     "ion2-calendar": "^3.0.0-rc.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.19",
     "moment": "^2.24.0",
     "moment-range": "^4.0.2",
     "rxjs": "~6.5.1",
